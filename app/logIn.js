@@ -4,6 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { useRouter, useSegments } from "expo-router";
+import DetailsForm from '../components/DetailsForm';
 
 
 export default function LogIn() {
@@ -35,17 +36,7 @@ export default function LogIn() {
           <View style={{backgroundColor: '#cdd1d0'}} className="flex-1 h-0.5"></View>
         </View>
         {/* input */}
-        <View className="gap-6 pb-8">
-          <View style={{height: hp(7)}} className="flex-row gap-4 px-4 items-center border-b-2 border-b-gray-600">
-            <TextInput label="Your Email" className="flex-1 font-semibold text-neutral-700" placeholder="Your Email"/>
-          </View>
-          <View className="gap-5">
-            <View style={{height: hp(7)}} className="flex-row gap-4 px-4 items-center border-b-2">
-              <TextInput label="Your Password" className="flex-1 font-semibold text-neutral-700" placeholder="Password"/>
-            </View>
-            <Text className="text-sm/[14px] font-medium" style={{color: "#075BC9", fontFamily: "Poppins-Regular"}}>Forgot Password?</Text>
-          </View>
-        </View>
+        <DetailsForm isSignUp={false}/>
 
         <TouchableOpacity style={{backgroundColor: "#24786D", height: hp(7)}} className="rounded-2xl justify-center items-center">
           <Text className="text-white font-bold text-base/[16px] tracking-wider" style={{fontFamily: "Poppins-Regular"}}>Log In</Text>

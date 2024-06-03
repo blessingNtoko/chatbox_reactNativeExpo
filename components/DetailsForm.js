@@ -31,15 +31,25 @@ export default function DetailsForm(props) {
           placeholder="Your Email"
         />
       </View>
-      <View
-        style={{ height: hp(7) }}
-        className="flex-row gap-4 px-4 items-center border-b-2 border-b-gray-600"
-      >
-        <TextInput
-          label="Password"
-          className="flex-1 font-semibold text-neutral-700"
-          placeholder="Password"
-        />
+      <View className={!props.isSignUp ? "gap-5" : ""}>
+        <View
+          style={{ height: hp(7) }}
+          className="flex-row gap-4 px-4 items-center border-b-2 border-b-gray-600"
+        >
+          <TextInput
+            label="Password"
+            className="flex-1 font-semibold text-neutral-700"
+            placeholder="Password"
+          />
+        </View>
+        {!props.isSignUp && (
+          <Text
+            className="text-sm/[14px] font-medium"
+            style={{ color: "#075BC9", fontFamily: "Poppins-Regular" }}
+          >
+            Forgot Password?
+          </Text>
+        )}
       </View>
       {props.isSignUp && (
         <View
