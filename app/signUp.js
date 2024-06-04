@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
+import { View, Text, TouchableOpacity, Pressable, Alert } from "react-native";
 import React, { useRef, useState } from "react";
 import {
   widthPercentageToDP as wp,
@@ -13,13 +8,15 @@ import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import { useRouter, useSegments } from "expo-router";
 import DetailsForm from "../components/DetailsForm";
+import CustomKeyboardView from "../components/CustomKeyboardView";
 
 export default function SignUp() {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const [fontsloaded] = useFonts({
     "Poppins-Regular": require("./../assets/fonts/Poppins-Regular.ttf"),
   });
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
 
   const nameRef = useRef("");
   const emailRef = useRef("");
@@ -39,16 +36,30 @@ export default function SignUp() {
     }
   }
 
-  async function handleSignUp() {
-    if (!nameRef.current || !emailRef.current || !passwordRef.current || !confirmPasswordRef.current) {
-        Alert.alert("Log in", "Please make sure all fields are filled in!");
+  function detailsCheck() {
+      if (
+        !nameRef.current ||
+        !emailRef.current ||
+        !passwordRef.current ||
+        !confirmPasswordRef.current
+      ) {
+        Alert.alert("Sign Up", "Please make sure all fields are filled in!");
         return;
-    }
+      }
+
+      if (passwordRef.current !== confirmPasswordRef.current) {
+        Alert.alert("Sign Up", "The passwords you have entered do not match!");
+        return;
+      }
+  }
+
+ async function handleSignUp() {
+
     //handle sign up
   }
 
   return (
-    <View className="flex-1">
+    <CustomKeyboardView>
       <StatusBar style="dark" />
       <View
         style={{ paddingTop: hp(15), paddingHorizontal: wp(5) }}
@@ -80,18 +91,26 @@ export default function SignUp() {
         {/* input */}
         <DetailsForm isSignUp={true} getInputRefs={getSignUpRefs} />
 
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={{ backgroundColor: "#24786D", height: hp(7) }}
-          className="rounded-2xl justify-center items-center"
-        >
-          <Text
-            className="text-white font-bold text-base/[16px] tracking-wider"
-            style={{ fontFamily: "Poppins-Regular" }}
-          >
-            Log In
-          </Text>
-        </TouchableOpacity>
+        <View>
+          {loading ? (
+            <View className="flex-row justify-center">
+              <Loading size={hp(8)} />
+            </View>
+          ) : (
+            <TouchableOpacity
+              onPress={detailsCheck}
+              style={{ backgroundColor: "#24786D", height: hp(7) }}
+              className="rounded-2xl justify-center items-center"
+            >
+              <Text
+                className="text-white font-bold text-base/[16px] tracking-wider"
+                style={{ fontFamily: "Poppins-Regular" }}
+              >
+                Creat an account
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
 
         {/* sign up  */}
         <View className="flex-row justify-center items-center pt-5">
@@ -111,6 +130,6 @@ export default function SignUp() {
           </Pressable>
         </View>
       </View>
-    </View>
+    </CustomKeyboardView>
   );
 }

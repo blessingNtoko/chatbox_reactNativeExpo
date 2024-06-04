@@ -16,13 +16,16 @@ import { useFonts } from "expo-font";
 import { useRouter, useSegments } from "expo-router";
 import DetailsForm from "../components/DetailsForm";
 import Loading from "../components/Loading";
+import CustomKeyboardView from "../components/CustomKeyboardView";
+
 
 export default function LogIn() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   const [fontsloaded] = useFonts({
     "Poppins-Regular": require("./../assets/fonts/Poppins-Regular.ttf"),
   });
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
 
   const emailRef = useRef("");
   const passwordRef = useRef("");
@@ -36,17 +39,20 @@ export default function LogIn() {
     }
   }
 
-  async function handleLogin() {
+  function detailsCheck() {
     if (!emailRef.current || !passwordRef.current) {
-      Alert.alert("Log in", "Please make sure all fields are filled in!");
+      Alert.alert("Log In", "Please make sure all fields are filled in!");
       return;
     }
+  }
+
+  async function handleLogin() {
 
     //log in process
   }
 
   return (
-    <View className="flex-1">
+    <CustomKeyboardView className="flex-1">
       <StatusBar style="dark" />
       <View
         style={{ paddingTop: hp(15), paddingHorizontal: wp(5) }}
@@ -105,7 +111,7 @@ export default function LogIn() {
             </View>
           ) : (
             <TouchableOpacity
-              onPress={handleLogin}
+              onPress={detailsCheck}
               style={{ backgroundColor: "#24786D", height: hp(7) }}
               className="rounded-2xl justify-center items-center"
             >
@@ -131,6 +137,6 @@ export default function LogIn() {
           </Pressable>
         </View>
       </View>
-    </View>
+    </CustomKeyboardView>
   );
 }
