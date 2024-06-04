@@ -1,13 +1,10 @@
 import {
   View,
   Text,
-  Image,
-  StyleSheet,
-  TextInput,
   TouchableOpacity,
   Pressable,
 } from "react-native";
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -22,6 +19,33 @@ export default function SignUp() {
     "Poppins-Regular": require("./../assets/fonts/Poppins-Regular.ttf"),
   });
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const nameRef = useRef("");
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
+  const confirmPasswordRef = useRef("");
+
+  function getSignUpRefs(inputName, value) {
+    console.log("sign up :: ", inputName, value);
+    if (inputName === "name") {
+      nameRef.current = value;
+    } else if (inputName === "email") {
+      emailRef.current = value;
+    } else if (inputName === "password") {
+      passwordRef.current = value;
+    } else {
+      confirmPasswordRef.current = value;
+    }
+  }
+
+  async function handleSignUp() {
+    if (!nameRef.current || !emailRef.current || !passwordRef.current || !confirmPasswordRef.current) {
+        Alert.alert("Log in", "Please make sure all fields are filled in!");
+        return;
+    }
+    //handle sign up
+  }
 
   return (
     <View className="flex-1">
@@ -54,9 +78,10 @@ export default function SignUp() {
           </Text>
         </View>
         {/* input */}
-        <DetailsForm isSignUp={true}/>
+        <DetailsForm isSignUp={true} getInputRefs={getSignUpRefs} />
 
         <TouchableOpacity
+          onPress={handleSignUp}
           style={{ backgroundColor: "#24786D", height: hp(7) }}
           className="rounded-2xl justify-center items-center"
         >

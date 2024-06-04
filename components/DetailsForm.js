@@ -1,19 +1,16 @@
-import { View, Text, Image, StyleSheet, TextInput } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
-import { useFonts } from "expo-font";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
 import DetailsInput from "./DetailsInput";
 
 export default function DetailsForm(props) {
+
+
   return (
     <View className="gap-6 pb-10">
-      {props.isSignUp && <DetailsInput name="Your Name" />}
-      <DetailsInput name="Your Email" />
+      {props.isSignUp && <DetailsInput innerText="Your Name" inputRefs={props.getInputRefs} name="name"/>}
+      <DetailsInput innerText="Your Email" inputRefs={props.getInputRefs} name="email" />
       <View className={!props.isSignUp ? "gap-5" : ""}>
-        <DetailsInput name="Password" />
+        <DetailsInput innerText="Password" inputRefs={props.getInputRefs} name="password" />
 
         {!props.isSignUp && (
           <Text
@@ -24,7 +21,7 @@ export default function DetailsForm(props) {
           </Text>
         )}
       </View>
-      {props.isSignUp && <DetailsInput name="Confirm Password" />}
+      {props.isSignUp && <DetailsInput innerText="Confirm Password" inputRefs={props.getInputRefs} name="confirmPassword"/>}
     </View>
   );
 }
