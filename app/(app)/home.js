@@ -1,26 +1,56 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import { View, Text, StatusBar, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from "../../context/authContext";
-import Button from '../../components/Button';
+// import Button from '../../components/Button';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import ChatList from '../../components/ChatList';
+import Loading from '../../components/Loading';
+import { getDocs, query, where } from 'firebase/firestore';
+import { usersRef } from '../../firebaseConfig';
 
 export default function Home() {
-  const { logout, user } = useAuth();
+  const { user } = useAuth();
+  const [users, setUsers] = useState([]);
 
-  async function handleLogout() {
-    await logout();
-    // handle logout
+  useEffect(() => {
+    if (user?.uid) {
+      getUsers();
+    }
+  }, []);
+
+  async function getUsers() {
+    // get users from firebase
+    const q = query(usersRef, where("userId", "!=", user?.uid));
+
+    try {      
+      const querySnapshot = await getDocs(q);
+      let data = [];
+      querySnapshot.forEach(doc => {
+        data.push({...doc.data()});
+      });
+  
+      setUsers(data);
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
-  console.log("user data :: ", user);
+  // console.log("user data :: ", user);
   return (
     <View className="flex-1 bg-white">
-      <Text>Home</Text>
-      <Button 
-        btnColor="#24786D"
-        btnText="Sign Out"
-        txtColor="white"
-        handlePress={handleLogout}
-      />
+      <StatusBar style="light"/>
+      {
+        users.length > 0 ? (
+          <ChatList users={users}/>
+        ) : (
+          <View className="flex items-center" style={{top: hp(30)}}>
+            <Loading size={hp(10)} />
+          </View>
+        )
+      }
     </View>
   )
 }

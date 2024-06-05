@@ -1,38 +1,42 @@
-import { View, Text } from 'react-native';
-import React, { useEffect } from 'react';
+import { View, Text } from "react-native";
+import React, { useEffect } from "react";
 import { Slot, useRouter, useSegments } from "expo-router";
 import "../global.css";
-import { AuthContextProvider, useAuth } from '../context/authContext';
+import { AuthContextProvider, useAuth } from "../context/authContext";
+import { MenuProvider } from "react-native-popup-menu";
+
 // import { useRoute } from '@react-navigation/native';
 
 const MainLayout = () => {
-    const {isAuthenticated} = useAuth();
-    const segments = useSegments();
-    const router = useRouter();
+  const { isAuthenticated } = useAuth();
+  const segments = useSegments();
+  const router = useRouter();
 
-    useEffect(() => {
-        if (typeof isAuthenticated == "undefined") return;
+  useEffect(() => {
+    if (typeof isAuthenticated == "undefined") return;
 
-        const inApp = segments[0] == "(app)";
+    const inApp = segments[0] == "(app)";
 
-        if (isAuthenticated && !inApp) {
-            // if user is authenticated, redirect to home
-            router.replace("Home");
-        } else if (isAuthenticated === false) {
-            //if user isn't authenticated or logged out, redirect to onBoarding
-            router.replace("onBoarding");
-        }
-    }, [isAuthenticated]);
+    if (isAuthenticated && !inApp) {
+      // if user is authenticated, redirect to home
+      router.replace("Home");
+    } else if (isAuthenticated === false) {
+      //if user isn't authenticated or logged out, redirect to onBoarding
+      router.replace("onBoarding");
+    }
+  }, [isAuthenticated]);
 
-    return <Slot />
-}
+  return <Slot />;
+};
 
 export default function RootLayout() {
   return (
-    <AuthContextProvider>
+    <MenuProvider>
+      <AuthContextProvider>
         <MainLayout />
-    </AuthContextProvider>
+      </AuthContextProvider>
+    </MenuProvider>
     // <View className="flex-1">
     // </View>
-  )
+  );
 }

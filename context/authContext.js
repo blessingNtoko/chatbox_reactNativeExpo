@@ -88,7 +88,7 @@ export const AuthContextProvider = ({ children }) => {
         email,
         password
       );
-      console.log(`response.user : ${response?.user}`);
+      // console.log(`response.user : ${response?.user}`);
 
       // setUser(response?.user);
       // setIsAuthenticated(true);
