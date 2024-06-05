@@ -1,9 +1,16 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { Stack } from 'expo-router'
+import { View, Text } from 'react-native';
+import React from 'react';
+import { Stack } from 'expo-router';
+import HomeHeader from '../../components/HomeHeader';
 
 export default function _layout() {
   return (
-    <Stack />
+    <Stack>
+      <Stack.Screen name="Home" options={{
+        header: () => {
+          return <HomeHeader />
+        }
+      }} />
+    </Stack>
   )
 }

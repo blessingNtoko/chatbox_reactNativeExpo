@@ -17,7 +17,7 @@ const MainLayout = () => {
 
         if (isAuthenticated && !inApp) {
             // if user is authenticated, redirect to home
-            router.replace("home");
+            router.replace("Home");
         } else if (isAuthenticated === false) {
             //if user isn't authenticated or logged out, redirect to onBoarding
             router.replace("onBoarding");
