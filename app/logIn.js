@@ -17,7 +17,7 @@ import { useRouter, useSegments } from "expo-router";
 import DetailsForm from "../components/DetailsForm";
 import Loading from "../components/Loading";
 import CustomKeyboardView from "../components/CustomKeyboardView";
-
+import Button from "../components/Button";
 
 export default function LogIn() {
   const router = useRouter();
@@ -73,6 +73,7 @@ export default function LogIn() {
             in to Chatbox
           </Text>
         </View>
+
         <View className="items-center">
           <Text
             style={{ fontFamily: "Poppins-Regular", color: "#797C7B" }}
@@ -82,12 +83,13 @@ export default function LogIn() {
             continue.
           </Text>
         </View>
-        {/* {signIn image} */}
+
         <View className="flex flex-row justify-center items-center gap-8">
           <Image source={require("../assets/images/facecbook.png")} />
           <Image source={require("../assets/images/google.png")} />
           <Image source={require("../assets/images/apple.png")} />
         </View>
+
         <View className="flex flex-row justify-center items-center">
           <View
             style={{ backgroundColor: "#cdd1d0" }}
@@ -101,7 +103,7 @@ export default function LogIn() {
             className="flex-1 h-0.5"
           ></View>
         </View>
-        {/* input */}
+
         <DetailsForm isSignUp={false} getInputRefs={getLogInRefs} />
 
         <View>
@@ -110,18 +112,8 @@ export default function LogIn() {
               <Loading size={hp(8)}/>
             </View>
           ) : (
-            <TouchableOpacity
-              onPress={detailsCheck}
-              style={{ backgroundColor: "#24786D", height: hp(7) }}
-              className="rounded-2xl justify-center items-center"
-            >
-              <Text
-                className="text-white font-bold text-base/[16px] tracking-wider"
-                style={{ fontFamily: "Poppins-Regular" }}
-              >
-                Log In
-              </Text>
-            </TouchableOpacity>
+            <Button btnColor="#24786D" btnText="Log In" txtColor="white" handlePress={detailsCheck}/>
+
           )}
         </View>
 

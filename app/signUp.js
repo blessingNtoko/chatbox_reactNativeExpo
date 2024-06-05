@@ -9,10 +9,14 @@ import { useFonts } from "expo-font";
 import { useRouter, useSegments } from "expo-router";
 import DetailsForm from "../components/DetailsForm";
 import CustomKeyboardView from "../components/CustomKeyboardView";
+import Loading from "../components/Loading";
+import Button from "../components/Button";
+import { useAuth } from "../context/authContext";
 
 export default function SignUp() {
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { register } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const [fontsloaded] = useFonts({
     "Poppins-Regular": require("./../assets/fonts/Poppins-Regular.ttf"),
@@ -37,25 +41,35 @@ export default function SignUp() {
   }
 
   function detailsCheck() {
-      if (
-        !nameRef.current ||
-        !emailRef.current ||
-        !passwordRef.current ||
-        !confirmPasswordRef.current
-      ) {
-        Alert.alert("Sign Up", "Please make sure all fields are filled in!");
-        return;
-      }
+    if (
+      !nameRef.current ||
+      !emailRef.current ||
+      !passwordRef.current ||
+      !confirmPasswordRef.current
+    ) {
+      Alert.alert("Sign Up", "Please make sure all fields are filled in!");
+      return;
+    }
 
-      if (passwordRef.current !== confirmPasswordRef.current) {
-        Alert.alert("Sign Up", "The passwords you have entered do not match!");
-        return;
-      }
+    if (passwordRef.current !== confirmPasswordRef.current) {
+      Alert.alert("Sign Up", "The passwords you have entered do not match!");
+      return;
+    }
+
+    handleSignUp();
   }
 
- async function handleSignUp() {
-
+  async function handleSignUp() {
     //handle sign up
+    setLoading(true);
+
+    let response = await register(nameRef.current, emailRef.current, passwordRef.current);
+    setLoading(false);
+
+    console.log(`got response: ${response}`);
+    if(!response.success) {
+        Alert.alert("Sign Up", response.message);
+    }
   }
 
   return (
@@ -97,18 +111,24 @@ export default function SignUp() {
               <Loading size={hp(8)} />
             </View>
           ) : (
-            <TouchableOpacity
-              onPress={detailsCheck}
-              style={{ backgroundColor: "#24786D", height: hp(7) }}
-              className="rounded-2xl justify-center items-center"
-            >
-              <Text
-                className="text-white font-bold text-base/[16px] tracking-wider"
-                style={{ fontFamily: "Poppins-Regular" }}
-              >
-                Creat an account
-              </Text>
-            </TouchableOpacity>
+            // <TouchableOpacity
+            //   onPress={detailsCheck}
+            //   style={{ backgroundColor: "#24786D", height: hp(7) }}
+            //   className="rounded-2xl justify-center items-center"
+            // >
+            //   <Text
+            //     className="text-white font-bold text-base/[16px] tracking-wider"
+            //     style={{ fontFamily: "Poppins-Regular" }}
+            //   >
+            //     Creat an account
+            //   </Text>
+            // </TouchableOpacity>
+            <Button
+              btnColor="#24786D"
+              btnText="Create an account"
+              txtColor="white"
+              handlePress={detailsCheck}
+            />
           )}
         </View>
 

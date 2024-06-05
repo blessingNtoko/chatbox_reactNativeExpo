@@ -20,7 +20,7 @@ const MainLayout = () => {
             router.replace("home");
         } else if (isAuthenticated === false) {
             //redirect to sign in
-            router.replace("logIn");
+            router.replace("onBoarding");
         }
     }, [isAuthenticated]);
 
