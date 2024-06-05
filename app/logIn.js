@@ -2,7 +2,6 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
   Pressable,
   Alert
 } from "react-native";
@@ -13,14 +12,17 @@ import {
 } from "react-native-responsive-screen";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
-import { useRouter, useSegments } from "expo-router";
+import { useRouter } from "expo-router";
 import DetailsForm from "../components/DetailsForm";
 import Loading from "../components/Loading";
 import CustomKeyboardView from "../components/CustomKeyboardView";
 import Button from "../components/Button";
+import { useAuth } from "../context/authContext";
+
 
 export default function LogIn() {
   const router = useRouter();
+  const { login } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const [fontsloaded] = useFonts({
@@ -31,7 +33,6 @@ export default function LogIn() {
   const passwordRef = useRef("");
 
   function getLogInRefs(inputName, value) {
-    console.log("login", inputName, value);
     if (inputName === "email") {
       emailRef.current = value;
     } else {
@@ -44,11 +45,21 @@ export default function LogIn() {
       Alert.alert("Log In", "Please make sure all fields are filled in!");
       return;
     }
+
+    handleLogin();
   }
 
   async function handleLogin() {
-
     //log in process
+    setLoading(true);
+
+    const response = await login(emailRef.current, passwordRef.current);
+    setLoading(false);
+
+    console.log("got login response :: ", response);
+    if (!response.success) {
+      Alert.alert("Log In", response.message);
+    }
   }
 
   return (

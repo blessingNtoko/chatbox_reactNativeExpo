@@ -1,6 +1,6 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { createContext, useState, useEffect, useContext } from "react";
-import { auth } from "../firebaseConfig";
+import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export const AuthContext = createContext();
@@ -13,6 +13,7 @@ export const AuthContextProvider = ({children}) => {
     useEffect(() => {
         // onAuthStateChanged
         const unsub = onAuthStateChanged(auth, (user) => {
+            console.log("Authenticated User ::", user)
             if (user) {
                 setIsAuthenticated(true);
                 setUser(user);
@@ -28,17 +29,26 @@ export const AuthContextProvider = ({children}) => {
 
     async function login(email, password) {
         try {
-            
+            const response = await signInWithEmailAndPassword(auth, email, password);
+
+            return {success: true};
         } catch (error) {
-            
+            let msg = error.message;
+
+            if (msg.includes("(auth/invalid-email)")) msg = "Your email is invalid. Please try again.";
+            if (msg.includes("(auth/invalid-credential)")) msg = "The details you have entered are incorrect. Please try again.";
+            if (msg.includes("(auth/weak-password)")) msg = "Password should be at least 6 characters long. Please try again.";
+
+            return {success: false, message: msg};
         }
     }
 
     async function logout() {
         try {
-            
+            await signOut(auth);
+            return { success: true }
         } catch (error) {
-            
+            return { success: false, message: error.message }
         }
     }
 
@@ -64,9 +74,11 @@ export const AuthContextProvider = ({children}) => {
             return {success: true, data: response?.user};
         } catch (error) {
             let msg = error.message;
-            if (msg.includes("(auth/invalid-email)")) {
-                msg = "Your email is invalid"
-            }
+
+            if (msg.includes("(auth/invalid-email)")) msg = "Your email is invalid.";
+            if (msg.includes("(auth/email-already-in-use)")) msg = "This email is already in use.";
+            if (msg.includes("(auth/weak-password)")) msg = "Password should be at least 6 characters long.";
+
             return {success: false, message: msg};
         }
     }

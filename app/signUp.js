@@ -28,7 +28,6 @@ export default function SignUp() {
   const confirmPasswordRef = useRef("");
 
   function getSignUpRefs(inputName, value) {
-    console.log("sign up :: ", inputName, value);
     if (inputName === "name") {
       nameRef.current = value;
     } else if (inputName === "email") {
@@ -63,10 +62,10 @@ export default function SignUp() {
     //handle sign up
     setLoading(true);
 
-    let response = await register(nameRef.current, emailRef.current, passwordRef.current);
+    const response = await register(nameRef.current, emailRef.current, passwordRef.current);
     setLoading(false);
 
-    console.log(`got response: ${response}`);
+    console.log(`got sign up response: ${response}`);
     if(!response.success) {
         Alert.alert("Sign Up", response.message);
     }

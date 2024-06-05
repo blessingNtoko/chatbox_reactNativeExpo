@@ -5,17 +5,9 @@ import { initializeApp } from "firebase/app";
 import { getReactNativePersistence, initializeAuth } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getFirestore, collection } from "firebase/firestore";
-// import { getAuth } from "firebase-admin/auth";
-
+import firebaseDetails from "./firebaseConfigDetails";
 // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAJKOYQ4Ci03CRoiOKF93BPdrxX-OWG8-0",
-  authDomain: "chatbox-35178.firebaseapp.com",
-  projectId: "chatbox-35178",
-  storageBucket: "chatbox-35178.appspot.com",
-  messagingSenderId: "136992896981",
-  appId: "1:136992896981:web:ad70bd15f7fac87541af5c"
-};
+const firebaseConfig = firebaseDetails;
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

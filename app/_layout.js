@@ -16,10 +16,10 @@ const MainLayout = () => {
         const inApp = segments[0] == "(app)";
 
         if (isAuthenticated && !inApp) {
-            // redirect to home
+            // if user is authenticated, redirect to home
             router.replace("home");
         } else if (isAuthenticated === false) {
-            //redirect to sign in
+            //if user isn't authenticated or logged out, redirect to onBoarding
             router.replace("onBoarding");
         }
     }, [isAuthenticated]);
