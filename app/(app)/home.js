@@ -40,7 +40,7 @@ export default function Home() {
 
   // console.log("user data :: ", user);
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-white px-5">
       <StatusBar style="light"/>
       {
         users.length > 0 ? (

@@ -1,12 +1,14 @@
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { useFonts } from "expo-font";
+import { Image } from "expo-image";
+import { blurHash } from "../utils/common";
 
-export default function ChatItem({itemData, router, index}) {
+export default function ChatItem({ itemData, router, index }) {
   const [fontsloaded] = useFonts({
     "Poppins-Regular": require("./../assets/fonts/Poppins-Regular.ttf"),
   });
@@ -17,15 +19,34 @@ export default function ChatItem({itemData, router, index}) {
     },
   });
 
+  function openChatRoom() {
+    // chat room with user
+    router.push({pathname: "/ChatRoom", params: itemData})
+
+  }
+
   return (
     <TouchableOpacity
-      style={{ justifyContent: "space-between" }}
-      className="flex-row mx-4 items-center gap-3 mb-4 pb-4"
+      onPress={openChatRoom}
+      style={{
+        justifyContent: "space-between",
+        paddingBottom: 5,
+        marginBottom: 4,
+        gap: 3,
+        marginVertical: 4,
+      }}
+      className="flex-row items-center"
     >
       <Image
-        source={require("../assets/images/react-logo.png")}
-        style={{ height: hp(6), width: hp(6) }}
-        className="rounded-full"
+        style={{ height: hp(6), aspectRatio: 1, borderRadius: 100 }}
+        source={
+          itemData?.profileImg
+            ? itemData?.profileImg
+            : "https://picsum.photos/seed/696/3000/2000"
+        }
+        placeholder={{ blurHash }}
+        contentFit="cover"
+        transition={500}
       />
 
       {/* will add name and last message to user */}
@@ -38,7 +59,7 @@ export default function ChatItem({itemData, router, index}) {
             }}
             className="font-semibold"
           >
-            John Doe
+            {itemData.name}
           </Text>
           <Text
             style={{
@@ -57,7 +78,7 @@ export default function ChatItem({itemData, router, index}) {
           }}
           className="font-medium"
         >
-            this is dummy text
+          this is dummy text
         </Text>
       </View>
     </TouchableOpacity>
