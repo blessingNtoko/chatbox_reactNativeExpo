@@ -1,15 +1,15 @@
 import { View, Text, StatusBar, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useAuth } from "../../context/authContext";
+import { useAuth } from "../../../context/authContext";
 // import Button from '../../components/Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import ChatList from '../../components/ChatList';
-import Loading from '../../components/Loading';
+import ChatList from '../../../components/ChatList';
+import Loading from '../../../components/Loading';
 import { getDocs, query, where } from 'firebase/firestore';
-import { usersRef } from '../../firebaseConfig';
+import { usersRef } from '../../../firebaseConfig';
 
 export default function Home() {
   const { user } = useAuth();

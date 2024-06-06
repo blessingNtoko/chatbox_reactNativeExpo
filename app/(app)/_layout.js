@@ -6,11 +6,7 @@ import HomeHeader from '../../components/HomeHeader';
 export default function _layout() {
   return (
     <Stack>
-      <Stack.Screen name="Home" options={{
-        header: () => {
-          return <HomeHeader />
-        }
-      }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
     </Stack>
   )
 }

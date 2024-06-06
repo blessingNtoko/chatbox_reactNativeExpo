@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React, { useEffect } from "react";
-import { Slot, useRouter, useSegments } from "expo-router";
+import { Slot, useRouter, useSegments, Stack } from "expo-router";
 import "../global.css";
 import { AuthContextProvider, useAuth } from "../context/authContext";
 import { MenuProvider } from "react-native-popup-menu";
@@ -19,7 +19,7 @@ const MainLayout = () => {
 
     if (isAuthenticated && !inApp) {
       // if user is authenticated, redirect to home
-      router.replace("Home");
+      router.replace("(tabs)/Home");
     } else if (isAuthenticated === false) {
       //if user isn't authenticated or logged out, redirect to onBoarding
       router.replace("onBoarding");
@@ -27,6 +27,11 @@ const MainLayout = () => {
   }, [isAuthenticated]);
 
   return <Slot />;
+//   return (
+//     <Stack>
+//       <Stack.Screen name="(tabs)" />
+//     </Stack>
+//   );
 };
 
 export default function RootLayout() {
