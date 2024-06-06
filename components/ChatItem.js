@@ -1,14 +1,43 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { useFonts } from "expo-font";
 import { Image } from "expo-image";
-import { blurHash } from "../utils/common";
+import { blurHash, getRoomID, formatDate } from "../utils/common";
+import {
+  doc,
+  query,
+  collection,
+  orderBy,
+  onSnapshot,
+} from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
-export default function ChatItem({ itemData, router, index }) {
+export default function ChatItem({ itemData, router, currentUser }) {
+  const [lastMessage, setLastMessage] = useState(undefined);
+
+  useEffect(() => {
+    const roomId = getRoomID(currentUser?.userId, itemData?.userId);
+    const docRef = doc(db, "rooms", roomId);
+    const messagesRef = collection(docRef, "messages");
+    const q = query(messagesRef, orderBy("createdAt", "desc"));
+
+    let unsub = onSnapshot(q, (snapShot) => {
+      let allMessages = snapShot.docs.map((doc) => {
+        return doc.data();
+      });
+
+      setLastMessage([allMessages[0] ? allMessages[0] : null]);
+    });
+
+    return unsub;
+  }, []);
+
+  console.log("last message :: ", lastMessage);
+
   const [fontsloaded] = useFonts({
     "Poppins-Regular": require("./../assets/fonts/Poppins-Regular.ttf"),
   });
@@ -21,8 +50,27 @@ export default function ChatItem({ itemData, router, index }) {
 
   function openChatRoom() {
     // chat room with user
-    router.push({pathname: "/ChatRoom", params: itemData})
+    router.push({ pathname: "/ChatRoom", params: itemData });
+  }
 
+  function renderTime() {
+    // render time
+    if (lastMessage) {
+        const date = lastMessage[0]?.createdAt;
+        return date && formatDate(new Date(date?.seconds * 1000));
+    }
+  }
+
+  function renderLastMessage() {
+    // render last message
+    if (typeof lastMessage === "undefined") return "Loading...";
+
+    if(lastMessage[0]) {
+        if (currentUser?.userId === lastMessage[0]?.userId) return `You: ${lastMessage[0]?.text}`;
+        return lastMessage[0]?.text;
+    } else {
+        return "Say Hi 👋🏾"
+    }
   }
 
   return (
@@ -68,7 +116,9 @@ export default function ChatItem({ itemData, router, index }) {
             }}
             className="font-medium"
           >
-            Time
+            {
+                renderTime()
+            }
           </Text>
         </View>
         <Text
@@ -78,7 +128,9 @@ export default function ChatItem({ itemData, router, index }) {
           }}
           className="font-medium"
         >
-          this is dummy text
+          {
+            renderLastMessage()
+          }
         </Text>
       </View>
     </TouchableOpacity>

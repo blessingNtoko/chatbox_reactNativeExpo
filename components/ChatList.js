@@ -3,7 +3,7 @@ import React from "react";
 import ChatItem from "./ChatItem";
 import { useRouter } from "expo-router";
 
-export default function ChatList({ users }) {
+export default function ChatList({ users, currentUser }) {
   const router = useRouter();
 
   return (
@@ -14,7 +14,7 @@ export default function ChatList({ users }) {
         keyExtractor={(item) => Math.random()}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <ChatItem itemData={item} index={index} router={router} />
+          <ChatItem itemData={item} index={index} router={router} currentUser={currentUser} />
         )}
       />
     </View>

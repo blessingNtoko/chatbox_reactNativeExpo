@@ -47,7 +47,7 @@ export default function HomeHeader() {
       style={{
         paddingTop: ios ? top : top + 10,
         backgroundColor: "#000E08",
-        height: hp(15),
+        height: hp(13),
         justifyContent: "space-between",
       }}
       className="flex flex-row items-center px-5 pb-6"
