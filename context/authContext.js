@@ -46,7 +46,7 @@ export const AuthContextProvider = ({ children }) => {
           profileImg: data.profileImg,
           status: data.status,
           media: data.media,
-          userID: data.userId,
+          userId: data.userId,
         });
       }
     } catch (error) {}
