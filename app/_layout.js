@@ -27,11 +27,6 @@ const MainLayout = () => {
   }, [isAuthenticated]);
 
   return <Slot />;
-//   return (
-//     <Stack>
-//       <Stack.Screen name="(tabs)" />
-//     </Stack>
-//   );
 };
 
 export default function RootLayout() {
