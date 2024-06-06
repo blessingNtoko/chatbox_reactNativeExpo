@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { AntDesign, FontAwesome, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+  AntDesign,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 
 export default function TabBar({ state, descriptors, navigation }) {
   const primaryColor = "#24786D";
@@ -18,10 +18,20 @@ export default function TabBar({ state, descriptors, navigation }) {
       <AntDesign name="contacts" size={26} color={greyColor} {...props} />
     ),
     Groups: (props) => (
-      <MaterialCommunityIcons name="account-group-outline" size={26} color={greyColor} {...props} />
+      <MaterialCommunityIcons
+        name="account-group-outline"
+        size={26}
+        color={greyColor}
+        {...props}
+      />
     ),
     Settings: (props) => (
-      <Ionicons name="settings-outline" size={26} color={greyColor} {...props} />
+      <Ionicons
+        name="settings-outline"
+        size={26}
+        color={greyColor}
+        {...props}
+      />
     ),
   };
 
@@ -40,7 +50,7 @@ export default function TabBar({ state, descriptors, navigation }) {
 
         const isFocused = state.index === index;
 
-        const onPress = () => {
+        function onPress() {
           const event = navigation.emit({
             type: "tabPress",
             target: route.key,
@@ -50,14 +60,7 @@ export default function TabBar({ state, descriptors, navigation }) {
           if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name, route.params);
           }
-        };
-
-        const onLongPress = () => {
-          navigation.emit({
-            type: "tabLongPress",
-            target: route.key,
-          });
-        };
+        }
 
         return (
           <TouchableOpacity
@@ -68,14 +71,11 @@ export default function TabBar({ state, descriptors, navigation }) {
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
-            onLongPress={onLongPress}
             style={{ flex: 1, gap: 5 }}
           >
-            {
-                icons[route.name]({
-                    color: isFocused ? primaryColor : greyColor
-                })
-            }
+            {icons[route.name]({
+              color: isFocused ? primaryColor : greyColor,
+            })}
             <Text style={{ color: isFocused ? primaryColor : greyColor }}>
               {label}
             </Text>
@@ -95,10 +95,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
     paddingVertical: 25,
-    shadowColor: "black",
-    shadowOffset: {width: 0, height: 10},
+    shadowColor: "black", // from here to shadowOpacity is for ios
+    shadowOffset: { width: 0, height: 10 },
     shadowRadius: 10,
-    shadowOpacity: .1,
-    elevation: 10
+    shadowOpacity: 0.1,
+    elevation: 10, // this is for android
   },
 });

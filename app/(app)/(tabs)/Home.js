@@ -1,7 +1,6 @@
-import { View, Text, StatusBar, ActivityIndicator } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from "../../../context/authContext";
-// import Button from '../../components/Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -38,7 +37,6 @@ export default function Home() {
     }
   }
 
-  // console.log("user data :: ", user);
   return (
     <View className="flex-1 bg-white px-5">
       <StatusBar style="light"/>

@@ -22,12 +22,14 @@ import {
 } from "react-native-popup-menu";
 import { MenuItem } from "./CustomMenuItems";
 import { Feather, MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 const ios = Platform.OS == "ios";
 
 export default function HomeHeader() {
   const { user, logout } = useAuth();
   const { top } = useSafeAreaInsets();
+  const router = useRouter();
 
   const [fontsloaded] = useFonts({
     "Poppins-Regular": require("./../assets/fonts/Poppins-Regular.ttf"),
@@ -35,6 +37,7 @@ export default function HomeHeader() {
 
   function handleProfile() {
     // handle profile
+    router.push({ pathname: "/Profile", params: user });
   }
 
   async function handleLogout() {
