@@ -36,7 +36,7 @@ export default function ChatRoomHeader({ user, router }) {
                 style={{ fontSize: hp(2.5) }}
                 className="text-neutral-700 font-medium"
               >
-                {user?.name}
+                {user?.displayName}
               </Text>
             </View>
           </View>

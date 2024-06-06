@@ -2,7 +2,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import {
   AntDesign,
-  Ionicons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
@@ -20,14 +19,6 @@ export default function TabBar({ state, descriptors, navigation }) {
     Groups: (props) => (
       <MaterialCommunityIcons
         name="account-group-outline"
-        size={26}
-        color={greyColor}
-        {...props}
-      />
-    ),
-    Settings: (props) => (
-      <Ionicons
-        name="settings-outline"
         size={26}
         color={greyColor}
         {...props}

@@ -7,6 +7,7 @@ import {
 import { createContext, useState, useEffect, useContext } from "react";
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { updateProfile, updateEmail, updatePhoneNumber } from "firebase/auth";
 
 export const AuthContext = createContext();
 
@@ -40,14 +41,18 @@ export const AuthContextProvider = ({ children }) => {
 
       if (docSnap.exists()) {
         let data = docSnap.data();
-        setUser({
-          ...user,
-          name: data.name,
-          profileImg: data.profileImg,
-          status: data.status,
-          media: data.media,
-          userId: data.userId,
-        });
+
+        console.log("authContext | updateUserData :: ", data);
+        // setUser({
+        //   ...user,
+        //   displayName: data.displayName,
+        //   photoURL: data.photoURL,
+        //   status: data.status,
+        //   media: data.media,
+        //   email: data.email,
+        //   phoneNumber: data.phoneNumber,
+        //   userId: data.userId,
+        // });
       }
     } catch (error) {}
   }
@@ -81,7 +86,7 @@ export const AuthContextProvider = ({ children }) => {
     }
   }
 
-  async function register(name, email, password) {
+  async function register(displayName, email, password) {
     try {
       const response = await createUserWithEmailAndPassword(
         auth,
@@ -95,11 +100,11 @@ export const AuthContextProvider = ({ children }) => {
 
       // store user details
       await setDoc(doc(db, "users", response?.user.uid), {
-        name,
+        displayName,
         email,
         status: "",
         phoneNumber: "",
-        profileImg: "",
+        photoURL: "",
         media: [],
         userId: response?.user.uid,
       });
@@ -118,10 +123,39 @@ export const AuthContextProvider = ({ children }) => {
     }
   }
 
+  async function updateUser(displayName, photoURL) {
+    updateProfile(auth.currentUser, {
+      displayName: displayName,
+      photoURL: photoURL
+    }).then(() => {
+      return { success: true }
+    }).catch((error) => {
+      return { success: false, message: error.message }
+    });
+  }
+
+  async function updateEmail(email) {
+    updateEmail(email).then(() => {
+      return { success: true }
+    }).catch((error) => {
+      console.log(error.message)
+      return { success: false, message: error.message }
+    })
+  }
+
+  async function updatePhoneNumber(phoneNumber) {
+    updatePhoneNumber(auth.currentUser, phoneNumber).then(() => {
+      return { success: true }
+    }).catch((error) => {
+      console.log(error.message)
+      return { success: false, message: error.message }
+    });
+  }
+
   return (
     //All the state and function that will be received in the children components should be the value
     <AuthContext.Provider
-      value={{ user, isAuthenticated, login, register, logout }}
+      value={{ user, isAuthenticated, login, register, logout, updateEmail, updatePhoneNumber, updateUser }}
     >
       {children}
     </AuthContext.Provider>

@@ -107,7 +107,7 @@ export default function ChatItem({ itemData, router, currentUser }) {
             }}
             className="font-semibold"
           >
-            {itemData.name}
+            {itemData.displayName}
           </Text>
           <Text
             style={{

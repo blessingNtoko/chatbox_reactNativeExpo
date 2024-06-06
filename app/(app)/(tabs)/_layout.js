@@ -34,15 +34,6 @@ export default function _layout() {
                 title: "Groups"
             }}
         />
-        <Tabs.Screen 
-            name="Settings"
-            options={{
-                header: () => {
-                    return <HomeHeader />
-                },
-                title: "Settings"
-            }}
-        />
     </Tabs>
   )
 }

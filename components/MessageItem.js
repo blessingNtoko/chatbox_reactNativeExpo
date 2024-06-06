@@ -6,7 +6,9 @@ import {
 } from "react-native-responsive-screen";
 
 export default function MessageItem({ message, currentUser }) {
-  if (currentUser?.userId == message?.userId) {
+  console.log("MessageItem | currentUser", currentUser);
+  console.log("MessageItem | message", message);
+  if (currentUser?.uid == message?.userId) {
     // my message
     return (
       <View

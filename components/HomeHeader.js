@@ -37,7 +37,7 @@ export default function HomeHeader() {
 
   function handleProfile() {
     // handle profile
-    router.push({ pathname: "/Profile", params: user });
+    router.push({ pathname: "/Profile"});
   }
 
   async function handleLogout() {

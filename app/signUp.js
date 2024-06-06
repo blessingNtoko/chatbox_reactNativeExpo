@@ -110,18 +110,6 @@ export default function SignUp() {
               <Loading size={hp(8)} />
             </View>
           ) : (
-            // <TouchableOpacity
-            //   onPress={detailsCheck}
-            //   style={{ backgroundColor: "#24786D", height: hp(7) }}
-            //   className="rounded-2xl justify-center items-center"
-            // >
-            //   <Text
-            //     className="text-white font-bold text-base/[16px] tracking-wider"
-            //     style={{ fontFamily: "Poppins-Regular" }}
-            //   >
-            //     Creat an account
-            //   </Text>
-            // </TouchableOpacity>
             <Button
               btnColor="#24786D"
               btnText="Create an account"

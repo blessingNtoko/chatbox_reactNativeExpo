@@ -17,7 +17,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Ionicons, Feather, Entypo } from "@expo/vector-icons";
-import CustomKeyboardView from "../../components/CustomKeyboardView";
+// import CustomKeyboardView from "../../components/CustomKeyboardView";
 import { useAuth } from "../../context/authContext";
 import { getRoomID } from "../../utils/common";
 import { Timestamp, collection, doc, setDoc, addDoc, query, orderBy, onSnapshot } from "firebase/firestore";
@@ -85,10 +85,10 @@ export default function ChatRoom() {
 
       //add document to colection
       const newDoc = await addDoc(messagesRef, {
-        userId: user?.userId,
+        userId: user?.uid,
         text: message,
-        profileImg: user?.profileImg,
-        senderName: user?.name,
+        photoURL: user?.photoURL,
+        senderName: user?.displayName,
         createdAt: Timestamp.fromDate(new Date()),
       });
 
