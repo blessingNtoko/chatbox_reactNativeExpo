@@ -10,7 +10,6 @@ import { Image } from "expo-image";
 import { blurHash } from "../utils/common";
 
 export default function ChatRoomHeader({ user, router }) {
-  console.log("chat room", user);
   return (
     <Stack.Screen
       options={{

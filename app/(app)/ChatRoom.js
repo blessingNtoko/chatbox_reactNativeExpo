@@ -17,7 +17,6 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Feather, Entypo } from "@expo/vector-icons";
-// import CustomKeyboardView from "../../components/CustomKeyboardView";
 import { useAuth } from "../../context/authContext";
 import { getRoomID } from "../../utils/common";
 import { Timestamp, collection, doc, setDoc, addDoc, query, orderBy, onSnapshot } from "firebase/firestore";
@@ -31,8 +30,6 @@ export default function ChatRoom() {
   const textRef = useRef("");
   const inputRef = useRef(null);
   const scrollViewRef = useRef(null);
-
-  // console.log("item", item)
 
   useEffect(() => {
     createRoomIfNotExists();
@@ -94,7 +91,6 @@ export default function ChatRoom() {
         createdAt: Timestamp.fromDate(new Date()),
       });
 
-      // console.log("new message id :: ", newDoc.id);
     } catch (error) {
       Alert.alert("Message", error.message);
     }

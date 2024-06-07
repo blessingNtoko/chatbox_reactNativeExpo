@@ -5,8 +5,6 @@ import "../global.css";
 import { AuthContextProvider, useAuth } from "../context/authContext";
 import { MenuProvider } from "react-native-popup-menu";
 
-// import { useRoute } from '@react-navigation/native';
-
 const MainLayout = () => {
   const { isAuthenticated } = useAuth();
   const segments = useSegments();
@@ -36,7 +34,5 @@ export default function RootLayout() {
         <MainLayout />
       </AuthContextProvider>
     </MenuProvider>
-    // <View className="flex-1">
-    // </View>
   );
 }

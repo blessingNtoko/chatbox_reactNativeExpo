@@ -33,21 +33,16 @@ export default function Groups() {
 
   async function getGroups() {
     setLoading(true);
-    console.log("Groups | user", user)
 
     const q = query(
       groupsRef,
       where("participants", "array-contains", user?.userId)
     );
 
-    console.log("called get groups", query);
-
     try {
       const querySnapshot = await getDocs(q);
-      console.log("Groups | getGroups() | querySnapshot :: ", querySnapshot);
       let data = [];
       querySnapshot.forEach((doc) => {
-        console.log("querySnaphot | doc", doc.data());
         data.push(doc.data());
       });
 
@@ -55,13 +50,11 @@ export default function Groups() {
 
       setGroups(data);
       setLoading(false);
-      console.log("Groups | getGroups() | data :: ", data);
     } catch (error) {
       console.log(error.message);
     }
   }
 
-  console.log("groups.length ", groups.length);
 
   return (
     <View className="flex-1 bg-white px-5">

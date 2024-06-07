@@ -19,7 +19,6 @@ import { db } from "../firebaseConfig";
 export default function ChatItem({ itemData, router, currentUser }) {
   const [lastMessage, setLastMessage] = useState(undefined);
 
-  // console.log("ChatItem | itemData :: ", itemData);
   useEffect(() => {
     const roomId = getRoomID(currentUser?.userId, itemData?.userId);
     const docRef = doc(db, "rooms", roomId);
@@ -37,7 +36,6 @@ export default function ChatItem({ itemData, router, currentUser }) {
     return unsub;
   }, []);
 
-  // console.log("last message :: ", lastMessage);
 
   const [fontsloaded] = useFonts({
     "Poppins-Regular": require("./../assets/fonts/Poppins-Regular.ttf"),
@@ -66,7 +64,6 @@ export default function ChatItem({ itemData, router, currentUser }) {
     // render last message
     if (typeof lastMessage === "undefined") return "Loading...";
 
-    // console.log("currrrr", currentUser)
 
     if(lastMessage[0]) {
         if (currentUser?.userId === lastMessage[0]?.userId) return `You: ${lastMessage[0]?.text}`;

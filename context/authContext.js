@@ -17,9 +17,7 @@ export const AuthContextProvider = ({ children }) => {
 
   // will check if user is authenticated or not
   useEffect(() => {
-    // onAuthStateChanged
     const unsub = onAuthStateChanged(auth, (user) => {
-      console.log("Authenticated User ::", user);
       if (user) {
         setIsAuthenticated(true);
         setUser(user);
@@ -42,7 +40,6 @@ export const AuthContextProvider = ({ children }) => {
       if (docSnap.exists()) {
         let data = docSnap.data();
 
-        // console.log("authContext | updateUserData :: ", data);
         setUser({
           ...user,
           displayName: data.displayName,
@@ -93,12 +90,7 @@ export const AuthContextProvider = ({ children }) => {
         email,
         password
       );
-      // console.log(`response.user : ${response?.user}`);
 
-      // setUser(response?.user);
-      // setIsAuthenticated(true);
-
-      // store user details
       await setDoc(doc(db, "users", response?.user.uid), {
         displayName,
         email,
@@ -124,13 +116,11 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   async function updateUser(displayName = user?.displayName, photoURL = "") {
-    console.log("authContext | updateUser :: ", displayName);
-
     const docRef = doc(db, "users", user?.userId);
 
     await updateDoc(docRef, {
       displayName,
-      photoURL
+      photoURL,
     });
 
     await updateUserData(user?.userId);
@@ -140,39 +130,46 @@ export const AuthContextProvider = ({ children }) => {
     const docRef = doc(db, "users", user?.userId);
 
     await updateDoc(docRef, {
-      email
+      email,
     });
 
     await updateUserData(user?.userId);
-
   }
 
   async function updateUserPhoneNumber(phoneNumber) {
     const docRef = doc(db, "users", user?.userId);
 
     await updateDoc(docRef, {
-      phoneNumber
+      phoneNumber,
     });
 
     await updateUserData(user?.userId);
-
   }
 
   async function updateStatus(status) {
     const docRef = doc(db, "users", user?.userId);
 
     await updateDoc(docRef, {
-      status
+      status,
     });
 
     await updateUserData(user?.userId);
-
   }
 
   return (
     //All the state and function that will be received in the children components should be the value
     <AuthContext.Provider
-      value={{ user, isAuthenticated, login, updateStatus, register, logout, updateUserEmail, updateUserPhoneNumber, updateUser }}
+      value={{
+        user,
+        isAuthenticated,
+        login,
+        updateStatus,
+        register,
+        logout,
+        updateUserEmail,
+        updateUserPhoneNumber,
+        updateUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

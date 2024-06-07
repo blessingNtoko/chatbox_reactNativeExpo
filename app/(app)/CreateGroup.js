@@ -5,7 +5,6 @@ import {
   StatusBar,
   FlatList,
   Alert
-//   TouchableHighlight,
 } from "react-native";
 import React, { useRef, useState, useEffect } from "react";
 import {
@@ -13,7 +12,6 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { useFonts } from "expo-font";
-// import { Image } from "expo-image";
 import { useAuth } from "../../context/authContext";
 import { usersRef } from "../../firebaseConfig";
 import { getDocs, query, where, setDoc, doc, Timestamp } from "firebase/firestore";
@@ -90,7 +88,6 @@ export default function CreateGroup() {
     });
   }
 
-  console.log("CreateGroup | contacts :: ", contacts);
 
   const [fontsloaded] = useFonts({
     "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),

@@ -16,7 +16,6 @@ export default function Contacts() {
   const { user } = useAuth();
   const [users, setUsers] = useState([]);
 
-  console.log("Contacts | user Data :: ", user);
 
   useEffect(() => {
     if (user?.userId) {
@@ -31,14 +30,12 @@ export default function Contacts() {
 
     try {
       const querySnapshot = await getDocs(q);
-      console.log("Contacts | getUsers() | querySnapshot :: ", querySnapshot);
       let data = [];
       querySnapshot.forEach((doc) => {
         data.push({ ...doc.data() });
       });
 
 
-      console.log("Contacts | getUsers() | data :: ", data);
 
       setUsers(data);
       setLoading(false);
@@ -47,7 +44,6 @@ export default function Contacts() {
     }
   }
 
-  console.log("Contacts | users :: ", users);
 
   return (
     <View className="flex-1 bg-white px-5">

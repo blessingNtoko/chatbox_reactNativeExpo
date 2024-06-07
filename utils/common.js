@@ -5,8 +5,6 @@ export function getRoomID(userID_1, userID_2) {
     // messages regardless of which user accesses their messages
     const sortedIDs = [userID_1, userID_2].sort();
     const roomID = sortedIDs.join("-");
-
-    // console.log("Room ID :: ", roomID);
     
     return roomID;
 }

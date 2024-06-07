@@ -25,14 +25,12 @@ export default function Home() {
   const [chats, setChats] = useState([]);
 
   useEffect(() => {
-    console.log("called in use effect");
     if (user?.userId) {
       getUsers();
     }
   }, []);
 
   async function getUsers() {
-    console.log("get users called");
     // get users from firebase
     setLoading(true);
     const q = query(usersRef, where("userId", "!=", user?.userId));
@@ -41,11 +39,8 @@ export default function Home() {
       const querySnapshot = await getDocs(q);
       let data = [];
       querySnapshot.forEach((doc) => {
-        console.log(doc.data());
         data.push(doc.data());
       });
-
-        console.log("data data", data)
 
       getChats(data);
     } catch (error) {
@@ -60,11 +55,9 @@ export default function Home() {
       return;
     }
 
-    console.log("Get chats called");
     const chatArr = [];
 
     data.forEach((contact) => {
-      console.log("in for each");
       let roomID = getRoomID(user?.userId, contact?.userId);
       const docRef = doc(db, "rooms", roomID);
       const messagesRef = collection(docRef, "messages");
@@ -76,14 +69,11 @@ export default function Home() {
             return doc.data();
           });
 
-          // console.log("Home | getChats() | allMessages :: ", allMessages, roomID);
           if (allMessages.length > 0) {
-            // console.log("Home | getChats | contact :: ", contact);
             if (!chatArr.some((obj) => obj?.userId === contact?.userId)) {
               chatArr.push(contact);
             }
           }
-
 
           setChats((prev) => {
             return [...chatArr];
@@ -99,8 +89,6 @@ export default function Home() {
     });
   }
 
-  console.log("Chats length ", chats.length);
-
   return (
     <View className="flex-1 bg-white px-5">
       <StatusBar style="light" />
@@ -113,19 +101,12 @@ export default function Home() {
       ) : (
         <View className="flex items-center" style={{ top: hp(30) }}>
           <Ionicons name="chatbubbles" size={hp(20)} color="lightgrey" />
-          <Text style={{fontSize: hp(2.5)}}>You don't seem to have any chats.</Text>
+          <Text style={{ fontSize: hp(2.5) }}>
+            You don't seem to have any chats.
+          </Text>
           <Text>Why don't you say hi to someone.</Text>
         </View>
-      )
-    }
-
-    {/* {chats.length > 0 ? (
-      <ChatList users={chats} currentUser={user} />
-    ) : (
-      <View className="flex items-center" style={{ top: hp(30) }}>
-        <Loading size={hp(10)} />
-      </View>
-    )} */}
+      )}
     </View>
   );
 }

@@ -9,8 +9,6 @@ import { blurHash } from "../utils/common";
 
 
 export default function MessageItem({ message, currentUser }) {
-  // console.log("MessageItem | currentUser", currentUser);
-  console.log("MessageItem | message", message);
   if (currentUser?.userId == message?.userId) {
     // my message
     return (

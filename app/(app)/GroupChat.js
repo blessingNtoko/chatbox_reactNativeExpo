@@ -88,7 +88,6 @@ export default function GroupChat() {
         createdAt: Timestamp.fromDate(new Date()),
       });
 
-      // console.log("new message id :: ", newDoc.id);
     } catch (error) {
       Alert.alert("Message", error.message);
     }
