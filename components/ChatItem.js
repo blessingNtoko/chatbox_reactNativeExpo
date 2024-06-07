@@ -21,7 +21,7 @@ export default function ChatItem({ itemData, router, currentUser }) {
 
   // console.log("ChatItem | itemData :: ", itemData);
   useEffect(() => {
-    const roomId = getRoomID(currentUser?.uid, itemData?.userId);
+    const roomId = getRoomID(currentUser?.userId, itemData?.userId);
     const docRef = doc(db, "rooms", roomId);
     const messagesRef = collection(docRef, "messages");
     const q = query(messagesRef, orderBy("createdAt", "desc"));
@@ -69,7 +69,7 @@ export default function ChatItem({ itemData, router, currentUser }) {
     // console.log("currrrr", currentUser)
 
     if(lastMessage[0]) {
-        if (currentUser?.uid === lastMessage[0]?.userId) return `You: ${lastMessage[0]?.text}`;
+        if (currentUser?.userId === lastMessage[0]?.userId) return `You: ${lastMessage[0]?.text}`;
         return lastMessage[0]?.text;
     } else {
         return "Say Hi 👋🏾"

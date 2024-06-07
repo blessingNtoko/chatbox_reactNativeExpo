@@ -16,7 +16,10 @@ export default function CreateGroupItem({ item, blurHash, setSelected }) {
       activeOpacity={0.6}
       underlayColor="#DDDDDD"
       onPress={() => {
-        setSelected(item?.userId);
+        setSelected({
+            displayName: item?.displayName,
+            userId: item?.userId
+        });
       }}
       style={{marginBottom: hp(1)}}
     >

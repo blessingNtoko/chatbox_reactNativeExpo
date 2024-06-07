@@ -9,7 +9,7 @@ import {
 import { Image } from "expo-image";
 import { blurHash } from "../utils/common";
 
-export default function ChatRoomHeader({ user, router }) {
+export default function GroupChatHeader({ group, router }) {
   return (
     <Stack.Screen
       options={{
@@ -24,9 +24,9 @@ export default function ChatRoomHeader({ user, router }) {
               <Image
                 style={{ height: hp(5), aspectRatio: 1, borderRadius: 100 }}
                 source={
-                  user?.photoURL
-                    ? user?.photoURL
-                    : "https://picsum.photos/seed/696/3000/2000"
+                    group?.photoURL
+                    ? group?.photoURL
+                    : "https://picsum.photos/seed/697/3000/2000"
                 }
                 placeholder={{ blurHash }}
                 contentFit="cover"
@@ -36,7 +36,7 @@ export default function ChatRoomHeader({ user, router }) {
                 style={{ fontSize: hp(2.5) }}
                 className="text-neutral-700 font-medium"
               >
-                {user?.displayName}
+                {group?.groupName}
               </Text>
             </View>
           </View>
@@ -53,5 +53,5 @@ export default function ChatRoomHeader({ user, router }) {
         ),
       }}
     />
-  );
+  )
 }

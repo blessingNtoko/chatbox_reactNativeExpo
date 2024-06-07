@@ -3,8 +3,10 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import HomeHeader from '../../../components/HomeHeader';
 import TabBar from '../../../components/TabBar';
+import { useRouter } from 'expo-router';
 
 export default function _layout() {
+    const router = useRouter();
   return (
     <Tabs tabBar={props => <TabBar {...props}/>}>
         <Tabs.Screen 
@@ -29,7 +31,7 @@ export default function _layout() {
             name="Groups"
             options={{
                 header: () => {
-                    return <HomeHeader  title="Groups" />
+                    return <HomeHeader  title="Groups" router={router}/>
                 },
                 title: "Groups"
             }}

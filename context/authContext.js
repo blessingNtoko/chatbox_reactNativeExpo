@@ -23,7 +23,7 @@ export const AuthContextProvider = ({ children }) => {
       if (user) {
         setIsAuthenticated(true);
         setUser(user);
-        // updateUserData(user.uid);
+        updateUserData(user.uid);
       } else {
         setIsAuthenticated(false);
         setUser(null);
@@ -128,6 +128,7 @@ export const AuthContextProvider = ({ children }) => {
       displayName: displayName,
       photoURL: photoURL
     }).then(() => {
+      updateUserData(user?.userId);
       return { success: true }
     }).catch((error) => {
       return { success: false, message: error.message }

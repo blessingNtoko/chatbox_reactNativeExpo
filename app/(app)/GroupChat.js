@@ -5,7 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  Keyboard
+  Keyboard,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import { useLocalSearchParams } from "expo-router";
@@ -17,13 +17,21 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Feather, Entypo } from "@expo/vector-icons";
-// import CustomKeyboardView from "../../components/CustomKeyboardView";
 import { useAuth } from "../../context/authContext";
-import { getRoomID } from "../../utils/common";
-import { Timestamp, collection, doc, setDoc, addDoc, query, orderBy, onSnapshot } from "firebase/firestore";
+import {
+  Timestamp,
+  collection,
+  doc,
+  setDoc,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+} from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import GroupChatHeader from "../../components/GroupChatHeader";
 
-export default function ChatRoom() {
+export default function GroupChat() {
   const item = useLocalSearchParams(); // second user
   const { user } = useAuth();
   const router = useRouter();
@@ -32,41 +40,29 @@ export default function ChatRoom() {
   const inputRef = useRef(null);
   const scrollViewRef = useRef(null);
 
-  // console.log("item", item)
-
   useEffect(() => {
-    createRoomIfNotExists();
-
-    let roomId = getRoomID(user?.userId, item?.userId);
-    const docRef = doc(db, "rooms", roomId);
+    const docRef = doc(db, "groups", item.groupID);
     const messagesRef = collection(docRef, "messages");
-    const q = query(messagesRef, orderBy("createdAt", "asc"))
+    const q = query(messagesRef, orderBy("createdAt", "asc"));
 
     let unsub = onSnapshot(q, (snapShot) => {
-        let allMessages = snapShot.docs.map(doc => {
-            return doc.data();
-        });
+      let allMessages = snapShot.docs.map((doc) => {
+        return doc.data();
+      });
 
-        setMessages([...allMessages]);
+      setMessages([...allMessages]);
     });
 
-    const KeyboardDidShowListener = Keyboard.addListener("keyboardDidShow", updateScrollView);
+    const KeyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      updateScrollView
+    );
 
     return () => {
-        unsub;
-        KeyboardDidShowListener.remove();
-    }
-
+      unsub;
+      KeyboardDidShowListener.remove();
+    };
   }, []);
-
-  async function createRoomIfNotExists() {
-    //roomID
-    let roomID = getRoomID(user?.userId, item.userId);
-    await setDoc(doc(db, "rooms", roomID), {
-      roomID,
-      createdAt: Timestamp.fromDate(new Date()),
-    });
-  }
 
   async function handleSendMessage() {
     let message = textRef.current.trim();
@@ -74,10 +70,8 @@ export default function ChatRoom() {
     if (!message) return;
 
     try {
-      // retreive user id to use in message object
-      let roomId = getRoomID(user?.userId, item?.userId);
       //get reference to document that was created when room was created
-      const docRef = doc(db, "rooms", roomId);
+      const docRef = doc(db, "groups", item.groupID);
       // create messages collection for document
       const messagesRef = collection(docRef, "messages");
 
@@ -113,7 +107,7 @@ export default function ChatRoom() {
   return (
     <View className="flex-1 bg-white">
       <StatusBar style="dark" />
-      <ChatRoomHeader user={item} router={router} />
+      <GroupChatHeader group={item} router={router} />
       <View
         style={{
           justifyContent: "space-between",

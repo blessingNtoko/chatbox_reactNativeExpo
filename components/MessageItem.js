@@ -4,11 +4,14 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { Image } from "expo-image";
+import { blurHash } from "../utils/common";
+
 
 export default function MessageItem({ message, currentUser }) {
   // console.log("MessageItem | currentUser", currentUser);
-  // console.log("MessageItem | message", message);
-  if (currentUser?.uid == message?.userId) {
+  console.log("MessageItem | message", message);
+  if (currentUser?.userId == message?.userId) {
     // my message
     return (
       <View
@@ -32,12 +35,28 @@ export default function MessageItem({ message, currentUser }) {
         style={{ justifyContent: "flex-start", marginBottom: 6, marginLeft: 3 }}
         className="flex-row"
       >
-        <View style={{ width: wp(80) }}>
-          <View
-            style={{ backgroundColor: "#FFF" }}
-            className="flex self-start p-3 bg-white ml-5 rounded-b-xl rounded-r-xl"
-          >
-            <Text style={{ color: "#000" }}>{message?.text}</Text>
+        <View style={{ width: wp(80) }} className="flex-row">
+          <Image
+            style={{ height: hp(4), aspectRatio: 1, borderRadius: 100 }}
+            source={
+              message?.photoURL
+                ? message?.photoURL
+                : "https://picsum.photos/seed/696/3000/2000"
+            }
+            placeholder={{ blurHash }}
+            contentFit="cover"
+            transition={500}
+          />
+          <View className="flex" style={{ justifyContent: "flex-start" }}>
+            <View>
+              <Text style={{ color: "#000" }}>{message?.senderName}</Text>
+            </View>
+            <View
+              style={{ backgroundColor: "#FFF" }}
+              className="flex self-start p-3 bg-white ml-5 rounded-b-xl rounded-r-xl"
+            >
+              <Text style={{ color: "#000" }}>{message?.text}</Text>
+            </View>
           </View>
         </View>
       </View>

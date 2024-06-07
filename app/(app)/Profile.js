@@ -34,7 +34,7 @@ export default function Profile() {
     });
 
     if (!result.canceled) {
-      updateUser(user?.displayName, result.assets[0].uri)
+      updateUser(user?.displayName, result.assets[0].uri);
     }
   }
 
@@ -69,6 +69,8 @@ export default function Profile() {
      Alert.alert("Phone Number Update", "Phone Number update failed");
    }
   }
+
+  console.log("user?.displayName ", user)
 
   return (
     <View
@@ -107,7 +109,7 @@ export default function Profile() {
           </View>
           <View className="pt-3">
             <Text style={{ color: "#797c7b", fontSize: hp(2) }}>
-              @{user?.displayName.replace(/\s+/g, "").toLowerCase()}
+              @{user?.displayName ? user?.displayName.replace(/\s+/g, "").toLowerCase() : ""}
             </Text>
           </View>
           <View

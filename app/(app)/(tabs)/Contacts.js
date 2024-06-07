@@ -9,29 +9,35 @@ import ChatList from "../../../components/ChatList";
 import Loading from "../../../components/Loading";
 import { getDocs, query, where } from "firebase/firestore";
 import { usersRef } from "../../../firebaseConfig";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function Contacts() {
+  const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const [users, setUsers] = useState([]);
 
   console.log("Contacts | user Data :: ", user);
 
   useEffect(() => {
-    if (user?.uid) {
+    if (user?.userId) {
       getUsers();
     }
   }, []);
 
   async function getUsers() {
     // get users from firebase
-    const q = query(usersRef, where("userId", "!=", user?.uid));
+    const q = query(usersRef, where("userId", "!=", user?.userId));
 
     try {
       const querySnapshot = await getDocs(q);
+      console.log("Contacts | getUsers() | querySnapshot :: ", querySnapshot);
       let data = [];
       querySnapshot.forEach((doc) => {
         data.push({ ...doc.data() });
       });
+
+
+      console.log("Contacts | getUsers() | data :: ", data);
 
       setUsers(data);
     } catch (error) {
@@ -44,13 +50,21 @@ export default function Contacts() {
   return (
     <View className="flex-1 bg-white px-5">
       <StatusBar style="light" />
-      {users.length > 0 ? (
-        <ChatList users={users} currentUser={user} />
-      ) : (
-        <View className="flex items-center" style={{ top: hp(30) }}>
+      {
+        loading ? (
+          <View className="flex items-center" style={{ top: hp(30) }}>
           <Loading size={hp(10)} />
         </View>
-      )}
+        ) : users.length > 0 ? (
+          <ChatList users={users} currentUser={user} />
+        ) : (
+          <View className="flex items-center" style={{ top: hp(30) }}>
+          <MaterialIcons name="contacts" size={hp(20)} color="lightgrey" />
+          <Text style={{fontSize: hp(2.5)}}>You don't seem to have any contacts.</Text>
+          <Text>Don't worry, others will join you soon.</Text>
+        </View>
+        )
+      }
     </View>
   );
 }

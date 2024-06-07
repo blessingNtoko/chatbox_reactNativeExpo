@@ -26,7 +26,7 @@ export default function Home() {
   // const [allRooms, setAllRooms] = useState([]);
 
   useEffect(() => {
-    if (user?.uid) {
+    if (user?.userId) {
       getUsers();
     }
   }, []);
@@ -34,7 +34,7 @@ export default function Home() {
   async function getUsers() {
     // get users from firebase
     setLoading(true);
-    const q = query(usersRef, where("userId", "!=", user?.uid));
+    const q = query(usersRef, where("userId", "!=", user?.userId));
 
     try {
       const querySnapshot = await getDocs(q);
@@ -42,6 +42,8 @@ export default function Home() {
       querySnapshot.forEach((doc) => {
         data.push({ ...doc.data() });
       });
+
+        console.log("data data", data)
 
       getChats(data);
     } catch (error) {
@@ -51,13 +53,17 @@ export default function Home() {
 
   async function getChats(data) {
     // get users with messages sent
+    if (data.length === 0) {
+      setLoading(false);
+      return;
+    }
 
     console.log("Get chats called");
     const chatArr = [];
 
     data.forEach((contact) => {
       console.log("in for each");
-      let roomID = getRoomID(user?.uid, contact?.userId);
+      let roomID = getRoomID(user?.userId, contact?.userId);
       const docRef = doc(db, "rooms", roomID);
       const messagesRef = collection(docRef, "messages");
       const q = query(messagesRef);
@@ -76,7 +82,6 @@ export default function Home() {
             }
           }
 
-          // console.log("Home | getChats() | chatArr :: ",chatArr);
 
           setChats((prev) => {
             return [...chatArr];

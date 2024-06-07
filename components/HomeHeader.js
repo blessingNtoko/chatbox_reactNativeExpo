@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  Platform,
-  StyleSheet,
-} from "react-native";
+import { View, Text, Platform, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import {
   widthPercentageToDP as wp,
@@ -26,7 +21,7 @@ import { useRouter } from "expo-router";
 
 const ios = Platform.OS == "ios";
 
-export default function HomeHeader({title}) {
+export default function HomeHeader({ title }) {
   const { user, logout } = useAuth();
   const { top } = useSafeAreaInsets();
   const router = useRouter();
@@ -37,7 +32,7 @@ export default function HomeHeader({title}) {
 
   function handleProfile() {
     // handle profile
-    router.push({ pathname: "/Profile"});
+    router.push({ pathname: "/Profile" });
   }
 
   async function handleLogout() {
@@ -60,7 +55,10 @@ export default function HomeHeader({title}) {
       </View>
       <View>
         <Text
-          style={{ fontSize: hp(3), fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
+          style={{
+            fontSize: hp(3),
+            fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif",
+          }}
           className="font-medium text-white"
         >
           {title}
@@ -68,36 +66,42 @@ export default function HomeHeader({title}) {
       </View>
 
       <View>
-        <Menu>
-          <MenuTrigger>
-            <Image
-              style={{ height: hp(5), aspectRatio: 1, borderRadius: 100 }}
-              source={
-                user?.photoURL
-                  ? user?.photoURL
-                  : "https://picsum.photos/seed/696/3000/2000"
-              }
-              placeholder={{ blurHash }}
-              contentFit="cover"
-              transition={500}
-            />
-          </MenuTrigger>
-          <MenuOptions customStyles={optionsStyles}>
-            <MenuItem
-              text="Profile"
-              action={handleProfile}
-              value={null}
-              icon={<Feather name="user" size={hp(3)} color="#fff" />}
-            />
+        {title === "Groups" ? (
+          <TouchableOpacity onPress={() => router.push({pathname: "/CreateGroup"})}>
+            <AntDesign name="addusergroup" size={hp(3)} color="#fff" />
+          </TouchableOpacity>
+        ) : (
+          <Menu>
+            <MenuTrigger>
+              <Image
+                style={{ height: hp(5), aspectRatio: 1, borderRadius: 100 }}
+                source={
+                  user?.photoURL
+                    ? user?.photoURL
+                    : "https://picsum.photos/seed/696/3000/2000"
+                }
+                placeholder={{ blurHash }}
+                contentFit="cover"
+                transition={500}
+              />
+            </MenuTrigger>
+            <MenuOptions customStyles={optionsStyles}>
+              <MenuItem
+                text="Profile"
+                action={handleProfile}
+                value={null}
+                icon={<Feather name="user" size={hp(3)} color="#fff" />}
+              />
 
-            <MenuItem
-              text="Sign Out"
-              action={handleLogout}
-              value={null}
-              icon={<MaterialIcons name="logout" size={hp(3)} color="#fff" />}
-            />
-          </MenuOptions>
-        </Menu>
+              <MenuItem
+                text="Sign Out"
+                action={handleLogout}
+                value={null}
+                icon={<MaterialIcons name="logout" size={hp(3)} color="#fff" />}
+              />
+            </MenuOptions>
+          </Menu>
+        )}
       </View>
     </View>
   );
@@ -109,7 +113,7 @@ const optionsStyles = {
     padding: 5,
     borderRadius: 10,
     marginTop: 40,
-    marginLeft: -30
+    marginLeft: -30,
   },
   optionsWrapper: {
     backgroundColor: "#24786D",

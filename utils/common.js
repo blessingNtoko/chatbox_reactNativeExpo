@@ -11,6 +11,13 @@ export function getRoomID(userID_1, userID_2) {
     return roomID;
 }
 
+export function getGroupID(groupName, participants) {
+    // this function will create a group ID using the group name
+    participants = participants.map(obj => obj.userId).sort();
+    const id = `${groupName}:${participants.join("-")}`;
+    return id;
+}
+
 export function formatDate(date) {
     const day = date.getDate();
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
