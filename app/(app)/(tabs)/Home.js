@@ -2,7 +2,6 @@ import { View, StatusBar, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../context/authContext";
 import {
-  widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import ChatList from "../../../components/ChatList";
@@ -39,7 +38,7 @@ export default function Home() {
       const querySnapshot = await getDocs(q);
       let data = [];
       querySnapshot.forEach((doc) => {
-        data.push(doc.data());
+        data.push(...doc.data());
       });
 
       getChats(data);

@@ -1,14 +1,11 @@
 import { View, Text, StatusBar } from "react-native";
 import React, { useState, useEffect } from "react";
-import Button from "../../../components/Button";
-import { useRouter } from "expo-router";
 import { getDocs, query, where, collection } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import { useAuth } from "../../../context/authContext";
 import GroupList from "../../../components/GroupList";
 import Loading from "../../../components/Loading";
 import {
-  widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -16,7 +13,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 export default function Groups() {
   const { user } = useAuth();
   const [groups, setGroups] = useState([]);
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const groupsRef = collection(db, "groups");
@@ -26,10 +22,6 @@ export default function Groups() {
       getGroups();
     }
   }, []);
-
-  function handlePress() {
-    router.push({ pathname: "/CreateGroup" });
-  }
 
   async function getGroups() {
     setLoading(true);
