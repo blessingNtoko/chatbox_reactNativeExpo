@@ -31,16 +31,16 @@ export default function OnBoarding() {
         </View>
 
         <View className="flex flex-row flex-wrap px-5">
-          <Text style={styles.text} className="text-5xl/[55px] font-normal">
+          <Text style={{...styles.text, fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif"}} className="text-5xl/[55px] font-normal">
             Connect with friends
           </Text>
-          <Text style={styles.text} className="text-5xl/[55px] font-bold">
+          <Text style={{...styles.text, fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif"}} className="text-5xl/[55px] font-bold">
             easily & quickly
           </Text>
         </View>
 
         <View className="">
-          <Text style={styles.text} className="font-medium text-base/[26px] text-center">
+          <Text style={{...styles.text, fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif"}} className="font-medium text-base/[26px] text-center">
           Our chat app is the perfect way to stay connected with friends and family.
           </Text>
         </View>
@@ -77,14 +77,14 @@ export default function OnBoarding() {
 
         <View className="flex flex-row justify-center items-center ">
           <Text
-            style={{ color: "white", fontFamily: "Poppins-Regular" }}
+            style={{ color: "white", fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
             className="font-medium text-sm/[14px]"
           >
             Existing account?{" "}
           </Text>
           <Pressable onPress={() => router.push("logIn")}>
             <Text
-              style={{ color: "#24786D", fontFamily: "Poppins-Regular" }}
+              style={{ color: "#24786D", fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
               className="font-medium text-sm/[14px]"
             >
               Log in
@@ -106,6 +106,5 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
-    fontFamily: "Poppins-Regular"
   }
 })

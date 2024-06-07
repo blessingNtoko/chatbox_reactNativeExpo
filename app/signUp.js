@@ -80,13 +80,13 @@ export default function SignUp() {
       >
         <View className="flex-row items-center justify-center">
           <Text
-            style={{ fontFamily: "Poppins-Regular" }}
+            style={{ fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
             className="text-lg/[18px] font-bold"
           >
             Sign up with{" "}
           </Text>
           <Text
-            style={{ fontFamily: "Poppins-Regular" }}
+            style={{ fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
             className="text-lg/[18px] font-bold border-b-4 border-b-emerald-700"
           >
             Email
@@ -94,7 +94,7 @@ export default function SignUp() {
         </View>
         <View className="items-center">
           <Text
-            style={{ fontFamily: "Poppins-Regular", color: "#797C7B" }}
+            style={{ fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif", color: "#797C7B" }}
             className="text-neutral text-center font-bold text-base/[20px]"
           >
             Get chatting with friends and family today by signing up for our
@@ -122,14 +122,14 @@ export default function SignUp() {
         {/* sign up  */}
         <View className="flex-row justify-center items-center pt-5">
           <Text
-            style={{ color: "#24786D", fontFamily: "Poppins-Regular" }}
+            style={{ color: "#24786D", fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
             className="font-medium text-sm/[14px]"
           >
             Existing account?{" "}
           </Text>
           <Pressable onPress={() => router.push("logIn")}>
             <Text
-              style={{ color: "#24786D", fontFamily: "Poppins-Regular" }}
+              style={{ color: "#24786D", fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
               className="font-medium text-sm/[14px]"
             >
               Log in

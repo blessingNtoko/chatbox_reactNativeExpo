@@ -20,7 +20,7 @@ export const MenuItem = ({
   return (
     <MenuOption onSelect={(value) => action(value)}>
       <View style={{justifyContent: "space-between"}} className="px-4 py-1 flex-row items-center">
-        <Text style={{fontSize: hp(2), fontFamily: "Poppins-Regular"}} className="text-white font-semibold">{text}</Text>
+        <Text style={{fontSize: hp(2), fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif"}} className="text-white font-semibold">{text}</Text>
         {icon}
       </View>
     </MenuOption>

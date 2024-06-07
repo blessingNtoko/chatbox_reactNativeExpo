@@ -26,7 +26,7 @@ import { useRouter } from "expo-router";
 
 const ios = Platform.OS == "ios";
 
-export default function HomeHeader() {
+export default function HomeHeader({title}) {
   const { user, logout } = useAuth();
   const { top } = useSafeAreaInsets();
   const router = useRouter();
@@ -60,10 +60,10 @@ export default function HomeHeader() {
       </View>
       <View>
         <Text
-          style={{ fontSize: hp(3), fontFamily: fontsloaded && "Poppins-Regular" }}
+          style={{ fontSize: hp(3), fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
           className="font-medium text-white"
         >
-          Chats
+          {title}
         </Text>
       </View>
 
@@ -90,8 +90,6 @@ export default function HomeHeader() {
               icon={<Feather name="user" size={hp(3)} color="#fff" />}
             />
 
-            <Divider />
-
             <MenuItem
               text="Sign Out"
               action={handleLogout}
@@ -104,10 +102,6 @@ export default function HomeHeader() {
     </View>
   );
 }
-
-const Divider = () => {
-  return <View className="p-[1px] w-full bg-neutral-200" />;
-};
 
 const optionsStyles = {
   optionsContainer: {

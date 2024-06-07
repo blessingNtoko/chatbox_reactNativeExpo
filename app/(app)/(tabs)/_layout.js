@@ -11,7 +11,7 @@ export default function _layout() {
             name="Home"
             options={{
                 header: () => {
-                    return <HomeHeader />
+                    return <HomeHeader title="Messages" />
                 },
                 title: "Messages"
             }}
@@ -20,7 +20,7 @@ export default function _layout() {
             name="Contacts"
             options={{
                 header: () => {
-                    return <HomeHeader />
+                    return <HomeHeader title="Contacts" />
                 },
                 title: "Contacts"
             }}
@@ -29,7 +29,7 @@ export default function _layout() {
             name="Groups"
             options={{
                 header: () => {
-                    return <HomeHeader />
+                    return <HomeHeader  title="Groups" />
                 },
                 title: "Groups"
             }}

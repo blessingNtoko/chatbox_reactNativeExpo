@@ -15,7 +15,7 @@ export default function DetailsForm(props) {
         {!props.isSignUp && (
           <Text
             className="text-sm/[14px] font-medium"
-            style={{ color: "#075BC9", fontFamily: "Poppins-Regular" }}
+            style={{ color: "#075BC9", fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
           >
             Forgot Password?
           </Text>

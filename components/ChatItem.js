@@ -19,8 +19,7 @@ import { db } from "../firebaseConfig";
 export default function ChatItem({ itemData, router, currentUser }) {
   const [lastMessage, setLastMessage] = useState(undefined);
 
-  console.log("ChatItem | currentUser :: ", currentUser);
-
+  // console.log("ChatItem | itemData :: ", itemData);
   useEffect(() => {
     const roomId = getRoomID(currentUser?.uid, itemData?.userId);
     const docRef = doc(db, "rooms", roomId);

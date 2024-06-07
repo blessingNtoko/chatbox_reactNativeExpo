@@ -21,7 +21,7 @@ export default function Button(props) {
     >
       <Text
         className="font-bold text-base/[16px] tracking-wider"
-        style={{ fontFamily: "Poppins-Regular", color: props.txtColor }}
+        style={{ fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif", color: props.txtColor }}
       >
         {props.btnText}
       </Text>

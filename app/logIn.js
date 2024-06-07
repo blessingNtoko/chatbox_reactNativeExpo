@@ -71,13 +71,13 @@ export default function LogIn() {
       >
         <View className="flex-row items-center justify-center">
           <Text
-            style={{ fontFamily: "Poppins-Regular" }}
+            style={{ fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif"}}
             className="text-lg/[18px] font-bold border-b-4 border-b-emerald-700"
           >
             Log
           </Text>
           <Text
-            style={{ fontFamily: "Poppins-Regular" }}
+            style={{ fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
             className="text-lg/[18px] font-bold"
           >
             {" "}
@@ -87,7 +87,7 @@ export default function LogIn() {
 
         <View className="items-center">
           <Text
-            style={{ fontFamily: "Poppins-Regular", color: "#797C7B" }}
+            style={{ fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif", color: "#797C7B" }}
             className="text-neutral text-center font-bold text-base/[20px]"
           >
             Welcome back! Sign in using your social account or email to
@@ -132,7 +132,7 @@ export default function LogIn() {
         <View className="flex-row justify-center items-center pt-5">
           <Pressable onPress={() => router.push("signUp")}>
             <Text
-              style={{ color: "#24786D", fontFamily: "Poppins-Regular" }}
+              style={{ color: "#24786D", fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
               className="font-medium text-sm/[14px]"
             >
               Create An Account

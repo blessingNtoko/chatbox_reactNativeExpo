@@ -18,13 +18,13 @@ export default function DetailsInput(props) {
     >
       <Text
         className="font-medium text-sm/[14px]"
-        style={{ color: "#24786D", fontFamily: "Poppins-Regular" }}
+        style={{ color: "#24786D", fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
       >
         {props.innerText}
       </Text>
       <TextInput
         secureTextEntry={props.name === "password" || props.name === "confirmPassword"}
-        style={{ fontFamily: "Poppins-Regular" }}
+        style={{ fontFamily: fontsloaded ? "Poppins-Regular" : "sans-serif" }}
         className="flex-1 font-semibold text-neutral-600"
         onChangeText={(value) => props.inputRefs(props.name, value)}
       />
