@@ -7,7 +7,6 @@ import {
 import { createContext, useState, useEffect, useContext } from "react";
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { updateProfile, updateEmail, updatePhoneNumber } from "firebase/auth";
 
 export const AuthContext = createContext();
 
@@ -115,7 +114,7 @@ export const AuthContextProvider = ({ children }) => {
     }
   }
 
-  async function updateUser(displayName = user?.displayName, photoURL = "") {
+  async function updateUser(displayName = user?.displayName, photoURL = user?.photoURL) {
     const docRef = doc(db, "users", user?.userId);
 
     await updateDoc(docRef, {
