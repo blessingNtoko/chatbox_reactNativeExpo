@@ -16,7 +16,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { Ionicons, Feather, Entypo } from "@expo/vector-icons";
+import { Feather, Entypo } from "@expo/vector-icons";
 // import CustomKeyboardView from "../../components/CustomKeyboardView";
 import { useAuth } from "../../context/authContext";
 import { getRoomID } from "../../utils/common";
