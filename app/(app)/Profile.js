@@ -18,9 +18,10 @@ import { blurHash } from "../../utils/common";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign, Feather, SimpleLineIcons } from "@expo/vector-icons";
 import ProfileItem from "../../components/ProfileItem";
+import CustomKeyboardView from "../../components/CustomKeyboardView";
 
 export default function Profile() {
-  const { user, updateUser, updateUserEmail, updateUserPhoneNumber } = useAuth();
+  const { user, updateUser, updateUserEmail, updateUserPhoneNumber, updateStatus } = useAuth();
   const router = useRouter();
 
   console.log("Profile", user);
@@ -70,9 +71,19 @@ export default function Profile() {
    }
   }
 
+  async function handleStatusUpdate(status) {
+try {
+  await updateStatus(status);
+  Alert.alert("Update Status", "Status has been updated")
+} catch (error) {
+  
+}
+  }
+
   console.log("user?.displayName ", user)
 
   return (
+    <CustomKeyboardView>
     <View
       style={{ backgroundColor: "#000E08" }}
       className="flex-1 justify-center"
@@ -88,10 +99,10 @@ export default function Profile() {
           <TouchableOpacity
             onPress={pickImage}
             style={{ alignItems: "center", justifyContent: "center" }}
-            className="flex"
+            className="flex-row"
           >
             <Image
-              style={{ height: hp(17), aspectRatio: 1, borderRadius: 100 }}
+              style={{ height: hp(17), aspectRatio: 1, borderRadius: 100, marginLeft: wp(7) }}
               source={
                 user?.photoURL
                   ? user?.photoURL
@@ -101,6 +112,7 @@ export default function Profile() {
               contentFit="cover"
               transition={500}
             />
+            <Feather name="edit-2" size={hp(4)} color="white" style={{alignSelf: "flex-end"}}/>
           </TouchableOpacity>
           <View className="pt-5">
             <Text style={{ color: "white", fontSize: hp(4) }}>
@@ -169,10 +181,11 @@ export default function Profile() {
         >
           <ProfileItem title="Display Name" details={user?.displayName} handleUpdate={handleUserUpdate}/>
           <ProfileItem title="Email Address" details={user?.email} handleUpdate={handleEmailUpdate} />
-          {/* <ProfileItem title="Status" details={user?.status} profileProperty="status" handleUpdate={handleUpdate} /> */}
+          <ProfileItem title="Status" details={user?.status} profileProperty="status" handleUpdate={handleStatusUpdate} />
           <ProfileItem title="Phone Number" details={user?.phoneNumber ? user?.phoneNumber : "000-000-0000"} handleUpdate={handlePhoneNumberUpdate} />
         </View>
       </View>
     </View>
+    </CustomKeyboardView>
   );
 }

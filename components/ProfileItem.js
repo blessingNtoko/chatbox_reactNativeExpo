@@ -23,7 +23,7 @@ export default function ProfileItem({ title, details, handleUpdate }) {
       >
         <Text style={{ fontSize: hp(1.7), color: "#737373" }}>{title}</Text>
         <TextInput
-          style={{ fontSize: hp(3), color: "#000" }}
+          style={{ fontSize: hp(3), padding: 3, color: "#000", width: wp(70), backgroundColor: isEditable ? "#f3f6f6" : "#fff", borderRadius: 10 }}
           editable={isEditable}
           onChangeText={value => textRef.current = value}
         >

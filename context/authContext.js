@@ -6,7 +6,7 @@ import {
 } from "firebase/auth";
 import { createContext, useState, useEffect, useContext } from "react";
 import { auth, db } from "../firebaseConfig";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { updateProfile, updateEmail, updatePhoneNumber } from "firebase/auth";
 
 export const AuthContext = createContext();
@@ -123,40 +123,56 @@ export const AuthContextProvider = ({ children }) => {
     }
   }
 
-  async function updateUser(displayName, photoURL) {
-    updateProfile(auth.currentUser, {
-      displayName: displayName,
-      photoURL: photoURL
-    }).then(() => {
-      updateUserData(user?.userId);
-      return { success: true }
-    }).catch((error) => {
-      return { success: false, message: error.message }
+  async function updateUser(displayName = user?.displayName, photoURL = "") {
+    console.log("authContext | updateUser :: ", displayName);
+
+    const docRef = doc(db, "users", user?.userId);
+
+    await updateDoc(docRef, {
+      displayName,
+      photoURL
     });
+
+    await updateUserData(user?.userId);
   }
 
   async function updateUserEmail(email) {
-    updateEmail(auth.currentUser, email).then(() => {
-      return { success: true }
-    }).catch((error) => {
-      console.log(error.message)
-      return { success: false, message: error.message }
-    })
+    const docRef = doc(db, "users", user?.userId);
+
+    await updateDoc(docRef, {
+      email
+    });
+
+    await updateUserData(user?.userId);
+
   }
 
   async function updateUserPhoneNumber(phoneNumber) {
-    updatePhoneNumber(auth.currentUser, phoneNumber).then(() => {
-      return { success: true }
-    }).catch((error) => {
-      console.log(error.message)
-      return { success: false, message: error.message }
+    const docRef = doc(db, "users", user?.userId);
+
+    await updateDoc(docRef, {
+      phoneNumber
     });
+
+    await updateUserData(user?.userId);
+
+  }
+
+  async function updateStatus(status) {
+    const docRef = doc(db, "users", user?.userId);
+
+    await updateDoc(docRef, {
+      status
+    });
+
+    await updateUserData(user?.userId);
+
   }
 
   return (
     //All the state and function that will be received in the children components should be the value
     <AuthContext.Provider
-      value={{ user, isAuthenticated, login, register, logout, updateUserEmail, updateUserPhoneNumber, updateUser }}
+      value={{ user, isAuthenticated, login, updateStatus, register, logout, updateUserEmail, updateUserPhoneNumber, updateUser }}
     >
       {children}
     </AuthContext.Provider>

@@ -26,6 +26,7 @@ export default function Contacts() {
 
   async function getUsers() {
     // get users from firebase
+    setLoading(true);
     const q = query(usersRef, where("userId", "!=", user?.userId));
 
     try {
@@ -40,6 +41,7 @@ export default function Contacts() {
       console.log("Contacts | getUsers() | data :: ", data);
 
       setUsers(data);
+      setLoading(false);
     } catch (error) {
       console.log(error.message);
     }

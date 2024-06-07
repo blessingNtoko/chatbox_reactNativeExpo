@@ -23,15 +23,16 @@ export default function Home() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [chats, setChats] = useState([]);
-  // const [allRooms, setAllRooms] = useState([]);
 
   useEffect(() => {
+    console.log("called in use effect");
     if (user?.userId) {
       getUsers();
     }
   }, []);
 
   async function getUsers() {
+    console.log("get users called");
     // get users from firebase
     setLoading(true);
     const q = query(usersRef, where("userId", "!=", user?.userId));
@@ -40,7 +41,8 @@ export default function Home() {
       const querySnapshot = await getDocs(q);
       let data = [];
       querySnapshot.forEach((doc) => {
-        data.push({ ...doc.data() });
+        console.log(doc.data());
+        data.push(doc.data());
       });
 
         console.log("data data", data)
@@ -89,11 +91,15 @@ export default function Home() {
 
           setLoading(false);
         });
+
+        return unsub;
       } catch (error) {
         console.log(error);
       }
     });
   }
+
+  console.log("Chats length ", chats.length);
 
   return (
     <View className="flex-1 bg-white px-5">

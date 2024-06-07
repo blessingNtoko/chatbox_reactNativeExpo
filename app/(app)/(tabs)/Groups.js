@@ -33,6 +33,7 @@ export default function Groups() {
 
   async function getGroups() {
     setLoading(true);
+    console.log("Groups | user", user)
 
     const q = query(
       groupsRef,
