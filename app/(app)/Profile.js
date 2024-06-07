@@ -3,11 +3,9 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
-  TextInput,
-  Touchable,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import ProfileHeader from "../../components/ProfileHeader";
 import { useRouter } from "expo-router";
 import { useAuth } from "../../context/authContext";
@@ -18,14 +16,14 @@ import {
 } from "react-native-responsive-screen";
 import { blurHash } from "../../utils/common";
 import * as ImagePicker from "expo-image-picker";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { AntDesign, Feather, SimpleLineIcons } from "@expo/vector-icons";
 import ProfileItem from "../../components/ProfileItem";
 
 export default function Profile() {
-  const { user, updateUser, updateEmail, updatePhoneNumber } = useAuth();
+  const { user, updateUser, updateUserEmail, updateUserPhoneNumber } = useAuth();
   const router = useRouter();
-  const [pickedImage, setPickedImage] = useState(null);
+
+  console.log("Profile", user);
 
   async function pickImage() {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -35,42 +33,41 @@ export default function Profile() {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
-      setPickedImage(result.assets[0].uri);
-      storage();
+      updateUser(user?.displayName, result.assets[0].uri)
     }
   }
-
-  // function storage() {
-  //   const storage = getStorage();
-  //   const profileImgRef = ref(storage, pickedImage?.assets[0].uri);
-
-  //   uploadBytes(profileImgRef, pickedImage?.assets[0].uri).then((snapshot) => {
-  //     console.log("uploaded file");
-  //     console.log("snapshot :: ", snapshot);
-  //   });
-  // }
 
   async function handleUserUpdate(displayName, photoURL = "") {
     try {
        await updateUser(displayName, photoURL);
         Alert.alert("Update Profile", "Profile has been updated");
     } catch (error) {
-      console.log("Update Error::", error);
+      console.log("Update Profile Error::", error);
       Alert.alert("Profile Update", "Profile update failed");
     }
   }
 
+  // requires verification to work
   async function handleEmailUpdate(email) {
     try {
-       await updateEmail(email);
+       await updateUserEmail(email);
         Alert.alert("Update Email", "Email has been updated");
     } catch (error) {
-      console.log("Update Error::", error);
+      console.log("Update Email Error::", error);
       Alert.alert("Email Update", "Email update failed");
     }
+  }
+
+  // requires verification to work
+  async function handlePhoneNumberUpdate(phoneNumber) {
+    try {
+      await updateUserPhoneNumber(phoneNumber);
+       Alert.alert("Update Phone Number", "Phone Number has been updated");
+   } catch (error) {
+     console.log("Update Phone Number Error::", error);
+     Alert.alert("Phone Number Update", "Phone Number update failed");
+   }
   }
 
   return (
@@ -94,8 +91,8 @@ export default function Profile() {
             <Image
               style={{ height: hp(17), aspectRatio: 1, borderRadius: 100 }}
               source={
-                user?.profileImg
-                  ? user?.profileImg
+                user?.photoURL
+                  ? user?.photoURL
                   : "https://picsum.photos/seed/696/3000/2000"
               }
               placeholder={{ blurHash }}
@@ -168,10 +165,10 @@ export default function Profile() {
             borderTopRightRadius: 30,
           }}
         >
-          <ProfileItem title="Display Name" details={user?.displayName} profileProperty="displayName" handleUpdate={handleUserUpdate}/>
-          <ProfileItem title="Email Address" details={user?.email} profileProperty="email" handleUpdate={handleEmailUpdate} />
+          <ProfileItem title="Display Name" details={user?.displayName} handleUpdate={handleUserUpdate}/>
+          <ProfileItem title="Email Address" details={user?.email} handleUpdate={handleEmailUpdate} />
           {/* <ProfileItem title="Status" details={user?.status} profileProperty="status" handleUpdate={handleUpdate} /> */}
-          <ProfileItem title="Phone Number" details={user?.phoneNumber ? user?.phoneNumber : "000-000-0000"} profileProperty="phoneNumber" handleUpdate={updatePhoneNumber} />
+          <ProfileItem title="Phone Number" details={user?.phoneNumber ? user?.phoneNumber : "000-000-0000"} handleUpdate={handlePhoneNumberUpdate} />
         </View>
       </View>
     </View>

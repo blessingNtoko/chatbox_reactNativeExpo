@@ -73,8 +73,8 @@ export default function HomeHeader() {
             <Image
               style={{ height: hp(5), aspectRatio: 1, borderRadius: 100 }}
               source={
-                user?.profileImg
-                  ? user?.profileImg
+                user?.photoURL
+                  ? user?.photoURL
                   : "https://picsum.photos/seed/696/3000/2000"
               }
               placeholder={{ blurHash }}

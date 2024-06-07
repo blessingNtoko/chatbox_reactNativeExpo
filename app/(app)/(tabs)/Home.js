@@ -14,7 +14,7 @@ export default function Home() {
   const { user } = useAuth();
   const [users, setUsers] = useState([]);
 
-  console.log("user Data :: ", user)
+  console.log("Home | user Data :: ", user)
 
   useEffect(() => {
     if (user?.uid) {

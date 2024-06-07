@@ -19,11 +19,11 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     // onAuthStateChanged
     const unsub = onAuthStateChanged(auth, (user) => {
-    //   console.log("Authenticated User ::", user);
+      console.log("Authenticated User ::", user);
       if (user) {
         setIsAuthenticated(true);
         setUser(user);
-        updateUserData(user.uid);
+        // updateUserData(user.uid);
       } else {
         setIsAuthenticated(false);
         setUser(null);
@@ -42,17 +42,17 @@ export const AuthContextProvider = ({ children }) => {
       if (docSnap.exists()) {
         let data = docSnap.data();
 
-        console.log("authContext | updateUserData :: ", data);
-        // setUser({
-        //   ...user,
-        //   displayName: data.displayName,
-        //   photoURL: data.photoURL,
-        //   status: data.status,
-        //   media: data.media,
-        //   email: data.email,
-        //   phoneNumber: data.phoneNumber,
-        //   userId: data.userId,
-        // });
+        // console.log("authContext | updateUserData :: ", data);
+        setUser({
+          ...user,
+          displayName: data.displayName,
+          photoURL: data.photoURL,
+          status: data.status,
+          media: data.media,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          userId: data.userId,
+        });
       }
     } catch (error) {}
   }
@@ -134,8 +134,8 @@ export const AuthContextProvider = ({ children }) => {
     });
   }
 
-  async function updateEmail(email) {
-    updateEmail(email).then(() => {
+  async function updateUserEmail(email) {
+    updateEmail(auth.currentUser, email).then(() => {
       return { success: true }
     }).catch((error) => {
       console.log(error.message)
@@ -143,7 +143,7 @@ export const AuthContextProvider = ({ children }) => {
     })
   }
 
-  async function updatePhoneNumber(phoneNumber) {
+  async function updateUserPhoneNumber(phoneNumber) {
     updatePhoneNumber(auth.currentUser, phoneNumber).then(() => {
       return { success: true }
     }).catch((error) => {
@@ -155,7 +155,7 @@ export const AuthContextProvider = ({ children }) => {
   return (
     //All the state and function that will be received in the children components should be the value
     <AuthContext.Provider
-      value={{ user, isAuthenticated, login, register, logout, updateEmail, updatePhoneNumber, updateUser }}
+      value={{ user, isAuthenticated, login, register, logout, updateUserEmail, updateUserPhoneNumber, updateUser }}
     >
       {children}
     </AuthContext.Provider>

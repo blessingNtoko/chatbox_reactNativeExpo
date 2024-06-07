@@ -19,8 +19,10 @@ import { db } from "../firebaseConfig";
 export default function ChatItem({ itemData, router, currentUser }) {
   const [lastMessage, setLastMessage] = useState(undefined);
 
+  console.log("ChatItem | currentUser :: ", currentUser);
+
   useEffect(() => {
-    const roomId = getRoomID(currentUser?.userId, itemData?.userId);
+    const roomId = getRoomID(currentUser?.uid, itemData?.userId);
     const docRef = doc(db, "rooms", roomId);
     const messagesRef = collection(docRef, "messages");
     const q = query(messagesRef, orderBy("createdAt", "desc"));
@@ -36,7 +38,7 @@ export default function ChatItem({ itemData, router, currentUser }) {
     return unsub;
   }, []);
 
-  console.log("last message :: ", lastMessage);
+  // console.log("last message :: ", lastMessage);
 
   const [fontsloaded] = useFonts({
     "Poppins-Regular": require("./../assets/fonts/Poppins-Regular.ttf"),
@@ -65,8 +67,10 @@ export default function ChatItem({ itemData, router, currentUser }) {
     // render last message
     if (typeof lastMessage === "undefined") return "Loading...";
 
+    // console.log("currrrr", currentUser)
+
     if(lastMessage[0]) {
-        if (currentUser?.userId === lastMessage[0]?.userId) return `You: ${lastMessage[0]?.text}`;
+        if (currentUser?.uid === lastMessage[0]?.userId) return `You: ${lastMessage[0]?.text}`;
         return lastMessage[0]?.text;
     } else {
         return "Say Hi 👋🏾"
@@ -88,8 +92,8 @@ export default function ChatItem({ itemData, router, currentUser }) {
       <Image
         style={{ height: hp(6), aspectRatio: 1, borderRadius: 100 }}
         source={
-          itemData?.profileImg
-            ? itemData?.profileImg
+          itemData?.photoURL
+            ? itemData?.photoURL
             : "https://picsum.photos/seed/696/3000/2000"
         }
         placeholder={{ blurHash }}

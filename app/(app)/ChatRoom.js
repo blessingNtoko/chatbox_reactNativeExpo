@@ -32,10 +32,12 @@ export default function ChatRoom() {
   const inputRef = useRef(null);
   const scrollViewRef = useRef(null);
 
+  // console.log("item", item)
+
   useEffect(() => {
     createRoomIfNotExists();
 
-    let roomId = getRoomID(user?.userId, item?.userId);
+    let roomId = getRoomID(user?.uid, item?.userId);
     const docRef = doc(db, "rooms", roomId);
     const messagesRef = collection(docRef, "messages");
     const q = query(messagesRef, orderBy("createdAt", "asc"))
@@ -59,7 +61,7 @@ export default function ChatRoom() {
 
   async function createRoomIfNotExists() {
     //roomID
-    let roomID = getRoomID(user?.userId, item.userId);
+    let roomID = getRoomID(user?.uid, item.userId);
     await setDoc(doc(db, "rooms", roomID), {
       roomID,
       createdAt: Timestamp.fromDate(new Date()),
@@ -73,7 +75,7 @@ export default function ChatRoom() {
 
     try {
       // retreive user id to use in message object
-      let roomId = getRoomID(user?.userId, item?.userId);
+      let roomId = getRoomID(user?.uid, item?.userId);
       //get reference to document that was created when room was created
       const docRef = doc(db, "rooms", roomId);
       // create messages collection for document
@@ -92,7 +94,7 @@ export default function ChatRoom() {
         createdAt: Timestamp.fromDate(new Date()),
       });
 
-      console.log("new message id :: ", newDoc.id);
+      // console.log("new message id :: ", newDoc.id);
     } catch (error) {
       Alert.alert("Message", error.message);
     }

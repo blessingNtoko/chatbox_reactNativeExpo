@@ -6,7 +6,7 @@ export function getRoomID(userID_1, userID_2) {
     const sortedIDs = [userID_1, userID_2].sort();
     const roomID = sortedIDs.join("-");
 
-    console.log("Room ID :: ", roomID);
+    // console.log("Room ID :: ", roomID);
     
     return roomID;
 }
